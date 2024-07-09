@@ -1,0 +1,585 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Domail hromadne rozposielanie
+  license:
+    name: Proprietary
+  description: Campaign api
+paths:
+  /campaign/{id}/status:
+    get:
+      summary: current status of campaign
+      tags:
+        - CampaignController
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: id of the campaign
+      responses:
+        200:
+          description: return status of campaign
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatusCampaignResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /campaign/{id}/{uri}:
+    get:
+      summary: download source file from server
+      tags:
+        - CampaignController
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: id of the campaign
+        - in: path
+          name: uri
+          schema:
+            $ref: "domail-common-api.yaml#/string1024"
+          required: true
+          description: uri of the file
+      responses:
+        200:
+          description: return file data
+          content:
+            application/json:
+              schema:
+                $ref: "domail-common-api.yaml#/byteArrayResource"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /campaign/{id}/{uri}/{templateUri}/analyze:
+    get:
+      summary: analyze file for campaign
+      tags:
+        - CampaignController
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: id of the campaign
+        - in: path
+          name: uri
+          schema:
+            $ref: "domail-common-api.yaml#/string255"
+          required: true
+          description: uri
+        - in: path
+          name: templateUri
+          schema:
+            $ref: "domail-common-api.yaml#/string255"
+          required: true
+          description: template uri
+      responses:
+        200:
+          description: return sample data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /campaign/{id}/dataFile:
+    post:
+      summary: load source data file for campaign to server
+      tags:
+        - CampaignController
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: id of the campaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/dataSourceFileRequest"
+      responses:
+        200:
+          description: return data source file info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/dataSourceFileResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /campaign/{id}/history:
+    get:
+      summary: history records of campaign
+      tags:
+        - CampaignController
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: id of the campaign
+      responses:
+        200:
+          description: list of campaign history records
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/campaignHistoryResponseList"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /campaign/{id}/validate:
+    post:
+      summary: validate campaign
+      tags:
+        - CampaignController
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: id of the campaign
+      responses:
+        200:
+          description: return campaign validation message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/campaignValidation"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /campaign/{id}/start:
+    post:
+      summary: start campaign now
+      tags:
+        - CampaignController
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: id of the campaign
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /campaign/{id}:
+    get:
+      summary: get campaign detail
+      tags:
+        - CampaignController
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: id of the campaign
+      responses:
+        200:
+          description: return campaign detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/campaign"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+    post:
+      summary: Edit detail infotmation about campaign
+      tags:
+        - CampaignController
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: id of the campaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/editCampaign"
+      responses:
+        200:
+          description: Returns edited campaign information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/campaign"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+    delete:
+      summary: remove campaign
+      tags:
+        - CampaignController
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: id of the campaign
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /campaign:
+    put:
+      summary: create new campaign
+      tags:
+        - CampaignController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newCampaign"
+      responses:
+        200:
+          description: return campaign
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/campaign"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /campaignListRequest:
+    post:
+      summary: filter list of campaigns
+      tags:
+        - CampaignController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/campaignListRequest"
+      responses:
+        200:
+          description: filter list of campaigns
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/campaignListResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://uvzbuild:8080/auth/realms/dominanz/protocol/openid-connect/auth
+          scopes: {}
+  schemas:
+    campaignListResponse:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/campaignBrief"
+    campaignListRequest:
+      allOf:
+        - $ref: "domail-common-api.yaml#/components/schemas/listRequest"
+        - type: object
+          required:
+            - filter
+          properties:
+            filter:
+              $ref: "#/components/schemas/campaignRequestFilter"
+    campaignRequestFilter:
+      type: object
+      properties:
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+    editCampaign:
+      type: object
+      required:
+        - name
+        - paused
+        - scenarioId
+        - source
+      properties:
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        description:
+          $ref: "domail-common-api.yaml#/string1024"
+        schedule:
+          $ref: "domail-common-api.yaml#/datetime"
+        paused:
+          type: boolean
+        scenarioId:
+          $ref: "domail-common-api.yaml#/int64"
+        source:
+          $ref: "#/components/schemas/campaignSourceData"
+    newCampaign:
+      type: object
+      required:
+        - name
+        - paused
+        - scenarioId
+      properties:
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        description:
+          $ref: "domail-common-api.yaml#/string1024"
+        schedule:
+          $ref: "domail-common-api.yaml#/datetime"
+        paused:
+          type: boolean
+        scenarioId:
+          $ref: "domail-common-api.yaml#/int64"
+    campaign:
+      type: object
+      properties:
+        id:
+          $ref: "domail-common-api.yaml#/int64"
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        description:
+          $ref: "domail-common-api.yaml#/string1024"
+        schedule:
+          $ref: "domail-common-api.yaml#/datetime"
+        paused:
+          type: boolean
+        scenarioId:
+          $ref: "domail-common-api.yaml#/int64"
+        scenarioName:
+          $ref: "domail-common-api.yaml#/string255"
+        templateId:
+          $ref: "domail-common-api.yaml#/int64"
+        templateName:
+          $ref: "domail-common-api.yaml#/string255"
+        source:
+          $ref: "#/components/schemas/campaignSourceData"
+        templateSource:
+          $ref: "#/components/schemas/campaignSourceData"
+        created:
+          $ref: "domail-common-api.yaml#/datetime"
+        createdBy:
+          $ref: "domail-common-api.yaml#/string255"
+        changed:
+          $ref: "domail-common-api.yaml#/datetime"
+        changedBy:
+          $ref: "domail-common-api.yaml#/string255"
+    campaignBrief:
+      type: object
+      properties:
+        id:
+          $ref: "domail-common-api.yaml#/int64"
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        description:
+          $ref: "domail-common-api.yaml#/string1024"
+        schedule:
+          $ref: "domail-common-api.yaml#/datetime"
+        paused:
+          type: boolean
+        scenarioId:
+          $ref: "domail-common-api.yaml#/int64"
+        scenarioName:
+          $ref: "domail-common-api.yaml#/string255"
+        created:
+          $ref: "domail-common-api.yaml#/datetime"
+        createdBy:
+          $ref: "domail-common-api.yaml#/string255"
+        changed:
+          $ref: "domail-common-api.yaml#/datetime"
+        changedBy:
+          $ref: "domail-common-api.yaml#/string255"
+    campaignValidation:
+      type: object
+      properties:
+        valid:
+          type: boolean
+        message:
+          $ref: "domail-common-api.yaml#/string1024"
+    campaignHistoryResponseList:
+      type: array
+      items:
+        $ref: "#/components/schemas/campaignHistoryBrief"
+    campaignHistoryBrief:
+      type: object
+      properties:
+        id:
+          $ref: "domail-common-api.yaml#/int64"
+        state:
+          $ref: "domail-common-api.yaml#/string255"
+        processed:
+          $ref: "domail-common-api.yaml#/datetime"
+        startedBy:
+          $ref: "domail-common-api.yaml#/string255"
+    campaignSourceData:
+      type: object
+      properties:
+        uri:
+          $ref: "domail-common-api.yaml#/string255"
+        fileType:
+          $ref: "domail-common-api.yaml#/templateDataFileEnum"
+        exampleFileName:
+          $ref: "domail-common-api.yaml#/string255"
+        additionalTables:
+          type: array
+          items:
+            $ref: "#/components/schemas/campaignAdditionalSourceData"
+    campaignAdditionalSourceData:
+      type: object
+      properties:
+        uri:
+          $ref: "domail-common-api.yaml#/string255"
+        exampleFileName:
+          $ref: "domail-common-api.yaml#/string255"
+    dataSourceColumn:
+      type: object
+      required:
+        - column_order
+        - original_column_name
+      properties:
+        column_order:
+          $ref: "domail-common-api.yaml#/int32"
+        original_column_name:
+          $ref: "domail-common-api.yaml#/string255"
+        custom_column_name:
+          $ref: "domail-common-api.yaml#/string255"
+        column_value:
+          $ref: "domail-common-api.yaml#/string1024"
+    dataSourceFileRequest:
+      type: object
+      required:
+        - name
+        - file
+        - primary
+      properties:
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        primary:
+          type: boolean
+          default: false
+        file:
+          $ref: "domail-common-api.yaml#/byteArrayResource"
+    dataSourceFileResponse:
+      type: object
+      properties:
+        uri:
+          $ref: "domail-common-api.yaml#/string1024"
+    StatusCampaignResponse:
+      type: object
+      properties:
+        running:
+          type: boolean
+          default: false
+        

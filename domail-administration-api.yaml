@@ -1,0 +1,1717 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0 
+  title: Domail administracia
+  license:
+    name: Proprietary
+  description: Administracne api
+paths:
+  /certificate/{uri}:
+    delete:
+      summary: remove certificate
+      tags: 
+        - CertificateController
+      parameters:
+        - in: path
+          name: uri
+          schema: 
+           $ref: "domail-common-api.yaml#/string1024"
+          required: true
+          description: uri of the certificate
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /certificate/{type}:
+    put:
+      summary: load certificate to server
+      tags:
+        - CertificateController
+      parameters:
+       - in: path
+         name: type
+         schema: 
+           $ref: "domail-common-api.yaml#/certificateTypeEnum"
+         required: true
+         description: type of the certificate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/certificateRequest"
+      responses:
+        200:
+          description: return certificate
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/certificateResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /certificates/{type}:
+    get:
+      summary: get list of certificates by type
+      tags:
+        - CertificateController
+      parameters:
+       - in: path
+         name: type
+         schema: 
+           $ref: "domail-common-api.yaml#/certificateTypeEnum"
+         required: true
+         description: type of the certificate
+      responses:
+        200:
+          description: return certificates
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/certificateListResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /administration/settings:
+    get:
+      summary: get all settings
+      tags: 
+        - AdministrationController
+      responses:
+       200:
+         description: Returns all settings information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/settingsList"
+       400:
+         $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+    post:
+      summary: save all settings
+      tags: 
+        - AdministrationController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/settingsUpdateMeta"
+      responses:
+       200:
+         description: Returns all saved settings information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/settingsList"
+       400:
+         $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /queues/purge:
+    post:
+      summary: purge the queues
+      tags: 
+        - AdministrationController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/queuesActionList"
+      responses:
+       200:
+         description: OK
+       400:
+         $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /services/{action}:
+    post:
+      summary: start/stop service
+      tags: 
+        - AdministrationController
+      parameters:
+        - in: path
+          name: action
+          required: true
+          description: Start/stop of the service
+          schema:
+            $ref: "domail-common-api.yaml#/serviceActionEnum"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/servicesActionList"
+      responses:
+       200:
+         description: OK
+       400:
+         $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /services:
+    get:
+      tags: 
+        - AdministrationController 
+      responses:
+       200:
+         description: Returns services information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/servicesList"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       400:
+         $ref: "domail-common-api.yaml#/responses/400"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /queues:
+    get:
+      tags: 
+        - AdministrationController 
+      responses:
+       200:
+         description: Returns queues information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/queuesList"
+       400:
+         $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /whitelist/info:
+    get:
+      summary: General whitelist info
+      tags: 
+        - AdministrationController
+      responses:
+       200:
+         description: Returns whitelist information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/whitelistInfo"
+       400:
+         $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /whitelist:
+    put:
+      summary: Insert whitelist entry
+      tags: 
+        - AdministrationController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/whitelist"
+      responses:
+       200:
+         description: Returns edited whitelist information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/whitelistEntry"
+       400:
+         $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /whitelist/{id}:
+    get:
+      summary: get whitelist
+      tags: 
+        - AdministrationController
+      parameters:
+        - in: path
+          name: id
+          schema: 
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the whitelist entry
+      responses:
+       200:
+         description: Returns edited whitelist information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/whitelistEntry"
+       400:
+         $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+    delete:
+      summary: Delete whitelist
+      tags: 
+        - AdministrationController
+      parameters:
+        - in: path
+          name: id
+          schema: 
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the whitelist entry
+      responses:
+       200:
+         description: OK
+       400:
+         $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+    post:
+      summary: Edit whitelist
+      tags: 
+        - AdministrationController
+      parameters:
+        - in: path
+          name: id
+          schema: 
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the whitelist entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/whitelist"
+      responses:
+       200:
+         description: Returns edited whitelist information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/whitelistEntry"
+       400:
+         $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /whitelists:
+    get:
+      summary: list of all whitelist entries
+      tags: 
+        - AdministrationController
+      responses:
+        200:
+          description: filter list of whitelist entries
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/whitelistListResponse"
+        400:
+         $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /whitelistListRequest:
+    post:
+      summary: filter list of whitelist entries
+      tags: 
+        - AdministrationController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/whitelistListRequest"
+      responses:
+        200:
+          description: filter list of whitelist entries
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/whitelistListResponse"
+        400:
+         $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /blacklist/{action}:
+    post:
+      summary: Edit blacklist
+      tags: 
+        - AdministrationController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/blacklistActionList"
+      parameters:
+        - in: path
+          name: action
+          schema: 
+            $ref: "domail-common-api.yaml#/blacklistActionEnum"
+          required: true
+          description: Action for the blacklist
+      responses:
+       200:
+         description: OK
+       400:
+         $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /blacklist/{id}:
+    delete:
+      summary: Delete blacklist
+      tags: 
+        - AdministrationController
+      parameters:
+        - in: path
+          name: id
+          schema: 
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the blacklist entry
+      responses:
+       200:
+         description: OK
+       400:
+         $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /blacklists:
+    get:
+      summary: list of all blacklist entries
+      tags: 
+        - AdministrationController
+      responses:
+        200:
+          description: filter list of blacklist entries
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/blacklistListResponse"
+        400:
+         $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /blacklistListRequest:
+    post:
+      summary: filter list of blacklist entries
+      tags: 
+        - AdministrationController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/blacklistListRequest"
+      responses:
+        200:
+          description: filter list of blacklist entries
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/blacklistListResponse"
+        400:
+         $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /instances:
+    get:
+      summary: list of all instances
+      tags: 
+        - AdministrationController
+      responses:
+        200:
+          description: filter list of instances
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/instanceListResponse"
+        400:
+         $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /instanceListRequest:
+    post:
+      summary: filter list of instances
+      tags: 
+        - AdministrationController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/instanceListRequest"
+      responses:
+        200:
+          description: filter list of instances
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/instanceListResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /instance:
+    put:
+      summary: Insert new instance
+      tags: 
+        - AdministrationController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newInstance"
+      responses:
+       200:
+         description: Returns saved instance information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/instance"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /instance/{code}:
+    get:
+      summary: Get detail infotmation about instance
+      tags: 
+        - AdministrationController
+      parameters:
+       - in: path
+         name: code
+         schema: 
+           $ref: "domail-common-api.yaml#/stringKey50"
+         required: true
+         description: instance id
+      responses:
+       200:
+         description: Returns role information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/instance"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+    post:
+      summary: Edit instance
+      tags: 
+        - AdministrationController
+      parameters:
+       - in: path
+         name: code
+         schema: 
+           $ref: "domail-common-api.yaml#/stringKey50"
+         required: true
+         description: instance id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/editInstance"
+      responses:
+       200:
+         description: Returns saved instance information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/instance"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+    delete:
+      summary: Delete instance
+      tags: 
+        - AdministrationController
+      parameters:
+       - in: path
+         name: code
+         schema: 
+           $ref: "domail-common-api.yaml#/stringKey50"
+         required: true
+         description: instance id
+      responses:
+       200:
+         description: OK
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /role:
+    put:
+      summary: Insert new role
+      tags: 
+        - AdministrationController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newRole"
+      responses:
+       200:
+         description: Returns saved role information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/role"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /role/{roleId}:
+    get:
+      summary: Get detail infotmation about role
+      tags: 
+        - AdministrationController
+      parameters:
+       - in: path
+         name: roleId
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: role id
+      responses:
+       200:
+         description: Returns role information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/role"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+    post:
+      summary: Edit detail infotmation about role
+      tags: 
+        - AdministrationController
+      parameters:
+       - in: path
+         name: roleId
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: role id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newRole"
+      responses:
+       200:
+         description: Returns edited role information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/role"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+    delete:
+      summary: Delete role
+      tags: 
+        - AdministrationController
+      parameters:
+       - in: path
+         name: roleId
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: role id
+      responses:
+       200:
+         description: OK
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /roles:
+    get:
+      summary: list of all roles
+      tags: 
+        - AdministrationController
+      responses:
+        200:
+          description: filter list of roles
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/roleListResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /roleListRequest:
+    post:
+      summary: filter list of roles
+      tags: 
+        - AdministrationController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/roleListRequest"
+      responses:
+        200:
+          description: filter list of roles
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/roleListResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /loggeduser:
+    get:
+      summary: logged user
+      tags:
+        - StatusController
+      responses:
+       200:
+         description: Returns info about logged user
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/info"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /user/password/reset:
+    post:
+      summary: change password by user
+      tags:
+        - AdministrationController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/password"
+      responses:
+       200:
+         description: OK
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /user/{uname}/password/reset:
+    post:
+      summary: password reset by admin
+      tags:
+        - AdministrationController
+      parameters:
+       - in: path
+         name: uname
+         schema: 
+           $ref: "domail-common-api.yaml#/string255"
+         required: true
+         description: uname
+      responses:
+       200:
+         description: OK
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /logout:
+    get:
+      summary: logout user
+      tags: 
+        - AdministrationController
+      responses:
+       200:
+         description: OK
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /user:
+    put:
+      summary: Insert new user
+      tags: 
+        - AdministrationController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user"
+      responses:
+       200:
+         description: Returns saved user information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/user"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /user/roles/{uname}:
+    post:
+      summary: Edit only roles infotmation about user
+      tags: 
+        - AdministrationController
+      parameters:
+       - in: path
+         name: uname
+         schema: 
+           $ref: "domail-common-api.yaml#/string255"
+         required: true
+         description: uname
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/userOnlyRoles"
+      responses:
+       200:
+         description: Returns edited user information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/user"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+
+  /user/{uname}:
+    get:
+      summary: Get detail infotmation about user
+      tags: 
+        - AdministrationController
+      parameters:
+       - in: path
+         name: uname
+         schema: 
+           $ref: "domail-common-api.yaml#/string255"
+         required: true
+         description: uname
+      responses:
+       200:
+         description: Returns user information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/user"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+    post:
+      summary: Edit detail infotmation about user
+      tags: 
+        - AdministrationController
+      parameters:
+       - in: path
+         name: uname
+         schema: 
+           $ref: "domail-common-api.yaml#/std255Regex"
+         required: true
+         description: uname
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user"
+      responses:
+       200:
+         description: Returns edited user information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/user"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /users:
+    get:
+      summary: get list of all users
+      tags: 
+        - AdministrationController
+      responses:
+        200:
+          description: list of all users
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/userListResponse" 
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /userListRequest: 
+    post:
+      summary: filter list of users
+      tags: 
+        - AdministrationController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/userListRequest"
+      responses:
+        200:
+          description: filter list of users
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/userListResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://uvzbuild:8080/auth/realms/dominanz/protocol/openid-connect/auth
+          scopes: {}
+  schemas:
+    password:
+      type: object
+      properties:
+        oldPass:
+          $ref: "domail-common-api.yaml#/string255" 
+        newPass:
+          $ref: "domail-common-api.yaml#/string255" 
+    info:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/infoUser"
+        addUser:
+          type: boolean
+        isAdmin:
+          type: boolean
+        isAdministration:
+          type: boolean
+        isConfiguration:
+          type: boolean
+        isExecution:
+          type: boolean
+        isRead:
+          type: boolean
+        userSettings:
+          $ref: "domail-common-api.yaml#/userSettings"
+        licenseType:
+          $ref: "domail-common-api.yaml#/string255"
+        licenseKey:
+          $ref: "domail-common-api.yaml#/string255"
+    instances:
+      type: array
+      items:
+        $ref: "#/components/schemas/instance"
+    instance:
+      type: object
+      properties:
+        code:
+          $ref: "domail-common-api.yaml#/stringKey50"
+        name:
+          $ref: "domail-common-api.yaml#/string255" 
+        description:
+          $ref: "domail-common-api.yaml#/string1024"
+        created:
+          $ref: "domail-common-api.yaml#/datetime"
+        createdBy:
+          $ref: "domail-common-api.yaml#/string255"
+        changed:
+          $ref: "domail-common-api.yaml#/datetime"
+        changedBy:
+          $ref: "domail-common-api.yaml#/string255"
+    instanceListResponse:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/instance"
+    roleListResponse:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/roleBrief"
+    userListResponse:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/user"
+    blacklistListResponse:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/blacklistEntry"
+    blacklistListRequest:
+      allOf:
+        - $ref: "domail-common-api.yaml#/components/schemas/listRequest"
+        - type: object
+          required:
+            - filter
+          properties:
+            filter:
+              $ref: "#/components/schemas/blacklistRequestFilter"
+    blacklistRequestFilter:
+      type: object
+      properties:
+        email: 
+         $ref: "domail-common-api.yaml#/string255"   
+        blocked: 
+         type: boolean
+        inserted_from:
+         $ref: "domail-common-api.yaml#/datetime"
+        inserted_to:
+         $ref: "domail-common-api.yaml#/datetime"
+    blacklist:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        reset:
+          type: boolean
+          default: false
+    blacklistEntry:
+      description: Object for information about blacklist entries
+      type: object
+      required:
+       - id
+       - email
+       - inserted
+      properties:  
+       id:
+         $ref: "domail-common-api.yaml#/int64"   
+       email:
+         $ref: "domail-common-api.yaml#/string255" 
+       blocked:
+         type: boolean
+         default: false
+       reason:
+         $ref: "domail-common-api.yaml#/string255" 
+       criticalErrors:
+         $ref: "domail-common-api.yaml#/int32" 
+       totalErrors:
+         $ref: "domail-common-api.yaml#/int32" 
+       inserted:
+         $ref: "domail-common-api.yaml#/datetime" 
+       changed:
+         $ref: "domail-common-api.yaml#/datetime" 
+       changedBy:
+         $ref: "domail-common-api.yaml#/string255" 
+    instanceListRequest:
+      allOf:
+        - $ref: "domail-common-api.yaml#/components/schemas/listRequest"
+        - type: object
+          required:
+            - filter
+          properties:
+            filter:
+              $ref: "#/components/schemas/instanceRequestFilter"
+    roleListRequest:
+      allOf:
+        - $ref: "domail-common-api.yaml#/components/schemas/listRequest"
+        - type: object
+          required:
+            - filter
+          properties:
+            filter:
+              $ref: "#/components/schemas/roleRequestFilter"
+    userListRequest:
+      allOf:
+        - $ref: "domail-common-api.yaml#/components/schemas/listRequest"
+        - type: object
+          required:
+            - filter
+          properties:
+            filter:
+              $ref: "#/components/schemas/userRequestFilter"
+    instanceRequestFilter:
+      type: object
+      properties:
+        name: 
+          $ref: "domail-common-api.yaml#/string255"
+        code: 
+          $ref: "domail-common-api.yaml#/stringKey50"
+    roleRequestFilter:
+      type: object
+      properties:
+        name: 
+          $ref: "domail-common-api.yaml#/string255"
+    userRequestFilter:
+      type: object
+      properties:
+        uname:
+          $ref: "domail-common-api.yaml#/string255" 
+        name: 
+          $ref: "domail-common-api.yaml#/string255"
+        type:
+          $ref: "domail-common-api.yaml#/string255"
+    instanceObject:
+      type: object
+      properties:
+        instance:
+          $ref: "domail-common-api.yaml#/stringKey50"
+        useradmin:
+          type: boolean
+          default: false
+        configuration:
+          type: boolean
+          default: false
+    ruleObject:
+      type: object
+      properties:
+        category:
+          $ref: "domail-common-api.yaml#/std50RegexOpt"
+        scenario:
+          $ref: "domail-common-api.yaml#/std255Regex"
+        group:
+          $ref: "domail-common-api.yaml#/std50RegexOpt"
+    userBrief:
+      type: object
+      properties:
+        uname:
+          $ref: "domail-common-api.yaml#/string255" 
+        name: 
+          $ref: "domail-common-api.yaml#/string255"
+        type:
+          $ref: "domail-common-api.yaml#/string255"
+        email:
+          $ref: "domail-common-api.yaml#/string255"
+        enabled:
+          type: boolean
+          default: false
+    editInstance:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        description:
+          $ref: "domail-common-api.yaml#/string1024"
+    newInstance:
+      type: object
+      required:
+        - code
+        - name
+      properties:
+        code:
+          $ref: "domail-common-api.yaml#/stringKey50"
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        description:
+          $ref: "domail-common-api.yaml#/string1024"
+    newRole:
+      type: object
+      required:
+        - name
+      properties:
+        name: 
+          $ref: "domail-common-api.yaml#/std255Regex"
+        description:
+          $ref: "domail-common-api.yaml#/string1024"
+        roles:
+          type: array
+          items:
+            $ref: "domail-common-api.yaml#/int64"
+        rules:
+          type: array
+          items:
+            $ref: "#/components/schemas/ruleObject"
+    role:
+      type: object
+      properties:
+        id:
+          $ref: "domail-common-api.yaml#/int64" 
+        name: 
+          $ref: "domail-common-api.yaml#/string255"
+        description:
+          $ref: "domail-common-api.yaml#/string1024"
+        type:
+          $ref: "domail-common-api.yaml#/roleTypeEnum"
+        code:
+          $ref: "domail-common-api.yaml#/string15"
+        roles:
+          type: array
+          items:
+            $ref: "domail-common-api.yaml#/int64"
+        rules:
+          type: array
+          items:
+            $ref: "#/components/schemas/ruleObject"
+        created:
+          $ref: "domail-common-api.yaml#/datetime"
+        createdBy:
+          $ref: "domail-common-api.yaml#/string255"
+        changed:
+          $ref: "domail-common-api.yaml#/datetime"
+        changedBy:
+          $ref: "domail-common-api.yaml#/string255"
+    roleBrief:
+      type: object
+      properties:
+        id:
+          $ref: "domail-common-api.yaml#/int64" 
+        name: 
+          $ref: "domail-common-api.yaml#/string255"
+        description:
+          $ref: "domail-common-api.yaml#/string1024"
+        type:
+          $ref: "domail-common-api.yaml#/roleTypeEnum"
+        created:
+          $ref: "domail-common-api.yaml#/datetime"
+        createdBy:
+          $ref: "domail-common-api.yaml#/string255"
+        changed:
+          $ref: "domail-common-api.yaml#/datetime"
+        changedBy:
+          $ref: "domail-common-api.yaml#/string255"
+    infoUser:
+      type: object
+      properties:
+        uname:
+          $ref: "domail-common-api.yaml#/string255" 
+        name: 
+          $ref: "domail-common-api.yaml#/string255"
+        type:
+          $ref: "domail-common-api.yaml#/string255"
+        email:
+          $ref: "domail-common-api.yaml#/string255"
+        enabled:
+          type: boolean
+          default: false
+        userRoles:
+          type: array
+          items:
+            $ref: "#/components/schemas/roleBrief"
+        userRules:
+          type: array
+          items:
+            $ref: "#/components/schemas/ruleObject" 
+    userOnlyRoles:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        userRoles:
+          type: array
+          items:
+            $ref: "domail-common-api.yaml#/int64"
+        userRules:
+          type: array
+          items:
+            $ref: "#/components/schemas/ruleObject"
+    user:
+      type: object
+      required:
+        - name
+        - type
+        - email
+        - enabled
+      properties:
+        uname:
+          $ref: "domail-common-api.yaml#/std255RegexWithDot" 
+        name: 
+          $ref: "domail-common-api.yaml#/string255"
+        type:
+          $ref: "domail-common-api.yaml#/string255"
+        email:
+          $ref: "domail-common-api.yaml#/string255"
+        enabled:
+          type: boolean
+          default: false
+        userRoles:
+          type: array
+          items:
+            $ref: "domail-common-api.yaml#/int64"
+        userRules:
+          type: array
+          items:
+            $ref: "#/components/schemas/ruleObject"  
+    queuesList:
+      type: array
+      items:
+        $ref: "#/components/schemas/queue"
+    queue:
+      type: object
+      properties:
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        pending:
+          $ref: "domail-common-api.yaml#/int32"
+        consumers:
+          $ref: "domail-common-api.yaml#/int32"
+    servicesList:
+      type: array
+      items:
+        $ref: "#/components/schemas/service"
+    service:
+      type: object
+      properties:
+        unit:
+          $ref: "domail-common-api.yaml#/string255"
+        load:
+          $ref: "domail-common-api.yaml#/string255"
+        active:
+          $ref: "domail-common-api.yaml#/string255"
+        sub:
+          $ref: "domail-common-api.yaml#/string255"
+        description:
+          $ref: "domail-common-api.yaml#/string1024"
+    whitelistInfo:
+      type: object
+      properties:
+        active:
+          type: boolean
+          default: false
+    whitelist:
+      type: object
+      required:
+        - recipient
+      properties:
+        recipient:
+          $ref: "domail-common-api.yaml#/string255"
+        scenarioId:
+          $ref: "domail-common-api.yaml#/int64"
+        enabled:
+          type: boolean
+          default: false
+    whitelistEntry:
+      description: Object for information about whitelist entries
+      type: object
+      required:
+       - recipient
+       - created
+       - createdBy
+      properties:  
+       id:
+         $ref: "domail-common-api.yaml#/int64"   
+       recipient:
+         $ref: "domail-common-api.yaml#/string255" 
+       scenarioId:
+         $ref: "domail-common-api.yaml#/int64"
+       scenario:
+         $ref: "domail-common-api.yaml#/string1024" 
+       enabled:
+         type: boolean
+         default: false
+       created:
+         $ref: "domail-common-api.yaml#/datetime" 
+       createdBy:
+         $ref: "domail-common-api.yaml#/string255"
+       changed:
+         $ref: "domail-common-api.yaml#/datetime" 
+       changedBy:
+         $ref: "domail-common-api.yaml#/string255" 
+    whitelistRequestFilter:
+      type: object
+      properties:
+        recipient: 
+         $ref: "domail-common-api.yaml#/string255"   
+        scenarioId: 
+         $ref: "domail-common-api.yaml#/int64"   
+    whitelistListRequest:
+      allOf:
+        - $ref: "domail-common-api.yaml#/components/schemas/listRequest"
+        - type: object
+          required:
+            - filter
+          properties:
+            filter:
+              $ref: "#/components/schemas/whitelistRequestFilter"
+    whitelistListResponse:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/whitelistEntry"
+    blacklistActionList:
+      type: array
+      items:
+        $ref: "domail-common-api.yaml#/int64"
+    queuesActionList:
+      type: array
+      items:
+        $ref: "domail-common-api.yaml#/string255"
+    servicesActionList:
+      type: array
+      items:
+        $ref: "domail-common-api.yaml#/string255"
+    settingsUpdateMeta:
+      type: object
+      properties:
+        main:
+          $ref: "#/components/schemas/settingsUpdateList"
+        smtp:
+          $ref: "#/components/schemas/settingsUpdateMetaList"
+        returnPath:
+          $ref: "#/components/schemas/settingsUpdateMetaList"
+    settingsUpdateMetaList:
+      type: array
+      items:
+        $ref: "#/components/schemas/settingsUpdateList"
+    settingsUpdateList:
+      type: array
+      items:
+        $ref: "#/components/schemas/settingsUpdateObject"
+    settingsUpdateObject:
+      type: object
+      required:
+        - name
+      properties:
+        name: 
+          $ref: "domail-common-api.yaml#/string255"
+        value:
+          $ref: "domail-common-api.yaml#/string255"      
+    settingsList:
+      type: array
+      items:
+        $ref: "#/components/schemas/settingsObject"
+    settingsObject:
+      type: object
+      properties:
+        name: 
+          $ref: "domail-common-api.yaml#/string255"
+        value:
+          $ref: "domail-common-api.yaml#/string255"
+        description:
+          $ref: "domail-common-api.yaml#/string255"
+        defaultDescription:
+          $ref: "domail-common-api.yaml#/string255"
+        defaultValue:
+          $ref: "domail-common-api.yaml#/string255"
+        type:
+          $ref: "domail-common-api.yaml#/string255"
+        category:
+          $ref: "domail-common-api.yaml#/string255"
+        changed:
+          $ref: "domail-common-api.yaml#/datetime"
+        changedBy:
+          $ref: "domail-common-api.yaml#/string255"
+    certificateResponse:
+      type: object
+      properties:
+        uri:
+          $ref: "domail-common-api.yaml#/string1024"
+        custom:
+          type: object
+        alias:
+          $ref: "domail-common-api.yaml#/string255"
+        created:
+          $ref: "domail-common-api.yaml#/datetime"
+        createdBy:
+          $ref: "domail-common-api.yaml#/string255"
+    certificateListResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/certificateResponse"
+    certificateRequest:
+      type: object
+      required:
+        - name
+        - file
+        - alias
+      properties:
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        file:
+          $ref: "domail-common-api.yaml#/byteArrayResource"
+        alias:
+          $ref: "domail-common-api.yaml#/string255"
+        custom:
+          type: object
+    
+        
+
+    
+
+
+    

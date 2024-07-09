@@ -1,0 +1,347 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0 
+  title: Domail statistiky
+  license:
+    name: Proprietary
+  description: Statistiky
+paths:
+  /statistics/categorize/{type}:
+    post:
+      summary: group types
+      tags: 
+        - StatisticController
+      parameters:
+        - in: path
+          name: type
+          required: true
+          description: type of grouping
+          schema:
+            $ref: "domail-common-api.yaml#/groupTypeEnum"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/groupTypeFilter"
+      responses:
+        200:
+          description: types - group, tag, address
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/groupTypeResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /statistics/categorize/group/category:
+    post:
+      summary: group category by group
+      tags: 
+        - StatisticController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/groupCategoryFilter"
+      responses:
+        200:
+          description: operations
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/groupTypeResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /statistics/categorize/group/category/operation:
+    post:
+      summary: group operation by category and group
+      tags: 
+        - StatisticController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/groupOperationFilter"
+      responses:
+        200:
+          description: operations
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/groupTypeResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /statistics/categorize/group/category/operation/instance:
+    post:
+      summary: group instance by category and group and operation
+      tags: 
+        - StatisticController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/groupInstanceFilter"
+      responses:
+        200:
+          description: instances
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/groupTypeResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /statistics/overview:
+    post:
+      summary: overview statistics
+      tags: 
+        - StatisticController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/statisticRequestFilter"
+      responses:
+        200:
+          description: overview statistic data
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/statisticOverviewResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /statistics/status:
+    post:
+      summary: status statistics
+      tags: 
+        - StatisticController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/statisticRequestFilter"
+      responses:
+        200:
+          description: status statistic data
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/statisticStatusResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /statistics/timerange:
+    post:
+      summary: timerange statistics
+      tags: 
+        - StatisticController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/statisticRequestFilter"
+      responses:
+        200:
+          description: timerange statistic data
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/statisticTimerangeResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  
+########################################################################################################################    
+          
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://uvzbuild:8080/auth/realms/dominanz/protocol/openid-connect/auth
+          scopes: {}
+  schemas:
+    groupCategoryFilter:
+      type: object
+      properties:
+        group:
+          $ref: "domail-common-api.yaml#/std50Regex"
+    groupOperationFilter:
+      type: object
+      properties:
+        group:
+          $ref: "domail-common-api.yaml#/std50Regex"
+        category:
+          $ref: "domail-common-api.yaml#/std50Regex"
+    groupInstanceFilter:
+      type: object
+      properties:
+        group:
+          $ref: "domail-common-api.yaml#/std50Regex"
+        category:
+          $ref: "domail-common-api.yaml#/std50Regex"
+        operation:
+          $ref: "domail-common-api.yaml#/std50Regex"
+    groupTypeFilter:
+      type: object
+      properties:
+        filter:
+          $ref: "domail-common-api.yaml#/std50Regex"
+    groupTypeResponse:
+      type: array
+      items:
+        $ref: "domail-common-api.yaml#/string255"
+    statisticOverviewResponse:
+      type: object
+      properties:
+        total:
+          $ref: "domail-common-api.yaml#/int64"
+        records:
+          type: array
+          items:
+            $ref: "#/components/schemas/overviewRecord"
+    overviewRecord:
+      type: object
+      properties:
+        category:
+          $ref: "domail-common-api.yaml#/std50Regex"
+        rank:
+          $ref: "domail-common-api.yaml#/int64"
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        amount:
+          $ref: "domail-common-api.yaml#/int64"
+        ratio:
+          type: number
+    statisticStatusResponse:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/statusRecords"
+    statusRecords:
+      type: object
+      properties:
+        total:
+          $ref: "domail-common-api.yaml#/int64"
+        records:
+          type: array
+          items:
+            $ref: "#/components/schemas/statusRecord"
+    statusRecord:
+      type: object
+      properties:
+        state:
+          $ref: "domail-common-api.yaml#/string255"
+        deliveryState:
+          $ref: "domail-common-api.yaml#/string255"
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+    statisticTimerangeResponse:
+      type: object
+      properties:
+        total:
+          $ref: "domail-common-api.yaml#/int64"
+        records:
+          type: array
+          items:
+            $ref: "#/components/schemas/timerangeRecord"
+    statisticRequestFilter:
+      type: object
+      properties:
+        filter:
+          $ref: "domail-common-api.yaml#/emailRequestFilter"
+        group:
+          $ref: "#/components/schemas/groupFilter"
+    timerangeRecord:
+      type: object
+      properties:
+        year:
+          $ref: "domail-common-api.yaml#/int32"
+        month:
+          $ref: "domail-common-api.yaml#/int32"
+        day:
+          $ref: "domail-common-api.yaml#/int32"
+        hour:
+          $ref: "domail-common-api.yaml#/int32"
+        value:
+          $ref: "domail-common-api.yaml#/int64"
+    groupFilter:
+      type: object
+      properties:
+        DDL1:
+          $ref: "domail-common-api.yaml#/string50"
+        DDL2:
+          $ref: "domail-common-api.yaml#/string50"
+        DDL3:
+          $ref: "domail-common-api.yaml#/string50"
+        DDL4:
+          $ref: "domail-common-api.yaml#/string50"
+        DDL5:
+          $ref: "domail-common-api.yaml#/string50"
+
+
+        

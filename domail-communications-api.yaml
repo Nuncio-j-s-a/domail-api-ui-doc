@@ -1,0 +1,871 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0 
+  title: Domail komunikacie
+  license:
+    name: Proprietary
+  description: Komunikacie
+paths:
+  /emailListRequest:
+    post:
+      summary: filter list of email requests
+      tags: 
+        - CommunicationController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/emailListRequest"
+      responses:
+        200:
+          description: filter list of email requests
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/emailListResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequests/{action}:
+    post:
+      summary: action on email requests
+      tags: 
+        - CommunicationController
+      parameters:
+       - in: path
+         name: action
+         schema: 
+           $ref: "domail-common-api.yaml#/communicationActionEnum"
+         required: true
+         description: type of action
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/emailRequestsId"
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequests/export/{format}:
+    post:
+      summary: export email requests by format
+      tags: 
+        - CommunicationController
+      parameters:
+       - in: path
+         name: format
+         schema: 
+           $ref: "domail-common-api.yaml#/communicationExportEnum"
+         required: true
+         description: type of action
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/emailRequestsId"
+      responses:
+        200:
+          description: exported file
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/cancel/{num}:
+    post:
+      summary: cancel action on email request
+      tags: 
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+       - in: path
+         name: num
+         schema: 
+           $ref: "domail-common-api.yaml#/int32"
+         required: true
+         description: num of address
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/resend/{num}:
+    post:
+      summary: resend action on email request
+      tags: 
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+       - in: path
+         name: num
+         schema: 
+           $ref: "domail-common-api.yaml#/int32"
+         required: true
+         description: num of address
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/resend:
+    post:
+      summary: resend action on email request
+      tags: 
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newAddresses"
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/reprocess/{num}:
+    post:
+      summary: reprocess action on email request
+      tags: 
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+       - in: path
+         name: num
+         schema: 
+           $ref: "domail-common-api.yaml#/int32"
+         required: true
+         description: num of address
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/reprocess:
+    post:
+      summary: reprocess action on email request
+      tags: 
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newAddresses"
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/detail:
+    get:
+      summary: get detail of email request for table
+      tags:
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+      responses:
+        200:
+          description: return detail of email request for table
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/emailRequestDetail"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/addresses:
+    get:
+      summary: get addresses of email request
+      tags:
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+      responses:
+        200:
+          description: return addresses of email request
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/addresses"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/tasks:
+    get:
+      summary: get tasks of email request
+      tags:
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+      responses:
+        200:
+          description: return tasks of email request
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/tasks"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/logs:
+    get:
+      summary: get logs of email request
+      tags:
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+      responses:
+        200:
+          description: return logs of email request
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/logs"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/archive:
+    get:
+      summary: get archive records of email request
+      tags:
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+      responses:
+        200:
+          description: return archive records of email request
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/archiveRecords"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/original:
+    get:
+      summary: get original source of email request
+      tags:
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+      responses:
+        200:
+          description: return original source of email request
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/eml/data/{runId}:
+    get:
+      summary: get eml source of email request
+      tags:
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+       - in: path
+         name: runId
+         schema: 
+           $ref: "domail-common-api.yaml#/int32"
+         required: true
+         description: ID of run of the email request
+      responses:
+        200:
+          description: return eml source of email request
+          content:
+            application/octet-stream:   
+              schema:
+                type: string
+                format: binary
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/eml/info/{runId}:
+    get:
+      summary: get eml source of email request
+      tags:
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+       - in: path
+         name: runId
+         schema: 
+           $ref: "domail-common-api.yaml#/int32"
+         required: true
+         description: ID of run of the email request
+      responses:
+        200:
+          description: return eml source of email request
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/emlInfo"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/preview/{runId}:
+    get:
+      summary: get eml source of email request
+      tags:
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+       - in: path
+         name: runId
+         schema: 
+           $ref: "domail-common-api.yaml#/int32"
+         required: true
+         description: ID of run of the email request
+      responses:
+        200:
+          description: return eml source of email request
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/previewInfo"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}/preview/attachment/{filename}:
+    get:
+      summary: get attachment preview of email request
+      tags:
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+       - in: path
+         name: filename
+         schema: 
+           $ref: "domail-common-api.yaml#/string255"
+         required: true
+         description: filename of attachment
+      responses:
+        200:
+          description: return plain text of email request
+          content:
+            application/octet-stream:   
+              schema:
+                type: string
+                format: binary
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /emailRequest/{id}:
+    get:
+      summary: get information about email request
+      tags:
+        - CommunicationController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the email request
+      responses:
+        200:
+          description: return of email request
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/emailRequest"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+      
+########################################################################################################################    
+          
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://uvzbuild:8080/auth/realms/dominanz/protocol/openid-connect/auth
+          scopes: {}
+  schemas:
+    emailListRequest:
+      allOf:
+        - $ref: "domail-common-api.yaml#/components/schemas/listRequest"
+        - type: object
+          required:
+            - filter
+          properties:
+            filter:
+              $ref: "domail-common-api.yaml#/emailRequestFilter"
+    emailListResponse:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/emailRequestEntry"
+    emailRequestEntry:
+      type: object
+      properties:
+        id:
+          $ref: "domail-common-api.yaml#/int64"
+        address: 
+          type: string
+        group: 
+          $ref: "domail-common-api.yaml#/std50Regex"  
+        category: 
+          $ref: "domail-common-api.yaml#/std50Regex"
+        scenario:
+          $ref: "domail-common-api.yaml#/string255"
+        sendTime:
+          $ref: "domail-common-api.yaml#/datetime"
+        state:
+          $ref: "domail-common-api.yaml#/string255"
+        multipleState:
+          type: boolean
+          default: false
+        multipleRuns:
+          type: boolean
+          default: false
+        deliveryState:
+          $ref: "domail-common-api.yaml#/string255"
+        multipleDeliveryState:
+          type: boolean
+          default: false
+        isMeta:
+          type: boolean
+          default: false
+        isMultipleAddresses:
+          type: boolean
+          default: false
+    emailRequest:
+      type: object
+      properties:
+        channel:
+          $ref: "domail-common-api.yaml#/channelEnum"
+        sysId:
+          $ref: "domail-common-api.yaml#/std50Regex"
+        extId:
+          $ref: "domail-common-api.yaml#/string128"
+        instance:
+          $ref: "domail-common-api.yaml#/stringKey50"
+        group: 
+          $ref: "domail-common-api.yaml#/std50Regex"  
+        category: 
+          $ref: "domail-common-api.yaml#/std50Regex"   
+        operation: 
+          $ref: "domail-common-api.yaml#/std50Regex"
+        sendTime:
+          $ref: "domail-common-api.yaml#/datetime"
+        state:
+          $ref: "domail-common-api.yaml#/string255"
+        deliveryState:
+          $ref: "domail-common-api.yaml#/string255"
+        rcvTime:
+          $ref: "domail-common-api.yaml#/datetime"
+        procTime:
+          $ref: "domail-common-api.yaml#/datetime"
+        scriptId:
+          $ref: "domail-common-api.yaml#/int64"
+        scriptName:
+          $ref: "domail-common-api.yaml#/string255"
+        templateId:
+          $ref: "domail-common-api.yaml#/int64"
+        templateName:
+          $ref: "domail-common-api.yaml#/string255"
+        priority:
+          type: boolean
+        duplicity:
+          type: boolean
+        tags:
+          $ref: "domail-common-api.yaml#/string50"
+        scenarioId:
+          $ref: "domail-common-api.yaml#/int64"
+        scenario:
+          $ref: "domail-common-api.yaml#/string255"
+        isMeta:
+          type: boolean
+          default: false
+    addresses:
+      type: array
+      items:
+        $ref: "#/components/schemas/address"
+    address:
+      type: object
+      properties:
+        num:
+          $ref: "domail-common-api.yaml#/int32" 
+        runId:
+          $ref: "domail-common-api.yaml#/int32" 
+        messageId:
+          $ref: "domail-common-api.yaml#/string255" 
+        address:
+          $ref: "domail-common-api.yaml#/string255"
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        state:
+          $ref: "domail-common-api.yaml#/string255"
+        deliveryState:
+          $ref: "domail-common-api.yaml#/string255"
+        sentTime:
+          $ref: "domail-common-api.yaml#/datetime"
+    tasks:
+      type: array
+      items:
+        $ref: "#/components/schemas/task"
+    task:
+      type: object
+      properties: 
+        runId:
+          $ref: "domail-common-api.yaml#/int32" 
+        origin:
+          $ref: "domail-common-api.yaml#/string255"
+        insTime:
+          $ref: "domail-common-api.yaml#/datetime"
+        msg:
+          $ref: "domail-common-api.yaml#/string1024"
+        address:
+          $ref: "domail-common-api.yaml#/string255"
+        stringState:
+          $ref: "domail-common-api.yaml#/string255"
+    logs:
+      type: array
+      items:
+        $ref: "#/components/schemas/log"
+    log:
+      type: object
+      properties:
+        runId:
+          $ref: "domail-common-api.yaml#/int32" 
+        num:
+          $ref: "domail-common-api.yaml#/int32" 
+        logId:
+          $ref: "domail-common-api.yaml#/int64" 
+        level:
+          $ref: "domail-common-api.yaml#/string255"
+        insTime:
+          $ref: "domail-common-api.yaml#/datetime"
+        msg:
+          $ref: "domail-common-api.yaml#/string1024"
+        origin:
+          $ref: "domail-common-api.yaml#/string255"
+    archiveRecords:
+      type: array
+      items:
+        $ref: "#/components/schemas/archiveRecord"
+    archiveRecord:
+      type: object
+      properties:
+        runId:
+          $ref: "domail-common-api.yaml#/int32" 
+        documentId:
+          $ref: "domail-common-api.yaml#/string255" 
+        archiveTime:
+          $ref: "domail-common-api.yaml#/datetime"
+        status:
+          $ref: "domail-common-api.yaml#/string255"
+    emailRequestsId:
+      type: array
+      items:
+        $ref: "domail-common-api.yaml#/int64"
+    emailRequestAddresses:
+      type: array
+      items:
+        $ref: "domail-common-api.yaml#/string255" 
+    newAddresses:
+      type: array
+      items:
+        $ref: "domail-common-api.yaml#/string255" 
+    emailRequestDetail:
+      type: object
+      properties:
+        addresses: 
+          type: string
+        extId:
+          $ref: "domail-common-api.yaml#/string255"
+        tags:
+          $ref: "domail-common-api.yaml#/string255" 
+        priority:
+          type: boolean
+        rcvTime:
+          $ref: "domail-common-api.yaml#/datetime"
+        procTime:
+          $ref: "domail-common-api.yaml#/datetime"
+        lastSentTime:
+          $ref: "domail-common-api.yaml#/datetime"
+        sctipyName:
+          $ref: "domail-common-api.yaml#/string255" 
+        templateName:
+          $ref: "domail-common-api.yaml#/string255"
+        instance:
+          $ref: "domail-common-api.yaml#/stringKey50"
+        operation: 
+          $ref: "domail-common-api.yaml#/std50Regex"
+        sysId:
+          $ref: "domail-common-api.yaml#/std50Regex"
+        channel:
+          $ref: "domail-common-api.yaml#/channelEnum"
+    emlInfo:
+      type: object
+      properties:
+        name:
+          $ref: "domail-common-api.yaml#/string255" 
+        size:
+          $ref: "domail-common-api.yaml#/int64"
+        created:
+          $ref: "domail-common-api.yaml#/datetime"
+    previewInfo:
+      type: object
+      properties:
+        subject:
+          $ref: "domail-common-api.yaml#/string255"
+        plainText:
+          type: string
+        htmlText:
+          type: string
+        attachmentList:
+          type: array
+          items:
+            $ref: "#/components/schemas/attachmentInfo"
+    attachmentInfo:
+      type: object
+      properties:
+        filename:
+          $ref: "domail-common-api.yaml#/string255"
+        mimetype:
+          $ref: "domail-common-api.yaml#/string255"
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        size:
+          $ref: "domail-common-api.yaml#/int64"
+
+
+        

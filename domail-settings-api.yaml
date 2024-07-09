@@ -1,0 +1,68 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0 
+  title: Domail settings
+  license:
+    name: Proprietary
+  description: Settings
+paths:
+  /settings/user:
+    get:
+      summary: get user settings
+      tags: 
+        - SettingsController
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:   
+              schema:
+                $ref: "domail-common-api.yaml#/userSettings" 
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+    post:
+      summary: upload user settings
+      tags: 
+        - SettingsController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "domail-common-api.yaml#/userSettings" 
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:   
+              schema:
+                $ref: "domail-common-api.yaml#/userSettings" 
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  
+########################################################################################################################    
+          
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://uvzbuild:8080/auth/realms/dominanz/protocol/openid-connect/auth
+          scopes: {}

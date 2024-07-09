@@ -1,0 +1,716 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0 
+  title: Domail dashboard services
+  license:
+    name: Proprietary
+  description: dashboard services
+paths:
+  /dashboard/main/charts:
+    post:
+      summary: Return chart data for main dashboard 
+      tags: 
+        - DashboardController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/mainDashboardRequest"
+      responses:
+       200:
+         description: Return chart data for main dashboard 
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/mainDashboardResponse"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /dashboard/main/widgets:
+    get:
+      summary: Return data for main widgets 
+      tags: 
+        - DashboardController
+      responses:
+       200:
+         description: Return data for main widgets 
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/dashboardMainWidgetsResponse"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /dashboardErrors/counts:
+    post:
+      summary: Return error data counts 
+      tags: 
+        - DashboardController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/dashboardErrorsCountsRequest"
+      responses:
+       200:
+         description: Returns edited whitelist information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/dashboardErrorsCountsResponse"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /dashboardScenarios/counts:
+    post:
+      summary: Return scenarios data counts 
+      tags: 
+        - DashboardController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/dashboardScenariosCountsRequest"
+      responses:
+       200:
+         description: Returns edited whitelist information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/dashboardScenariosCountsResponse"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /dashboardChannels/counts:
+    post:
+      summary: Return channel data counts 
+      tags: 
+        - DashboardController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/dashboardChannelsCountsRequest"
+      responses:
+       200:
+         description: Returns channels counts information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/dashboardChannelsCountsResponse"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /dashboardChannels/chart:
+    post:
+      summary: Return channel data charts 
+      tags: 
+        - DashboardController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/dashboardChannelsChartRequest"
+      responses:
+       200:
+         description: Returns channels charts information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/dashboardChannelsChartResponse"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /dashboardScenarios/chart:
+    post:
+      summary: Return scenario data charts 
+      tags: 
+        - DashboardController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/dashboardScenariosChartRequest"
+      responses:
+       200:
+         description: Returns scenarios charts information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/dashboardScenariosChartResponse"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /dashboardErrors/chart:
+    post:
+      summary: Return error data charts 
+      tags: 
+        - DashboardController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/dashboardErrorsChartRequest"
+      responses:
+       200:
+         description: Returns errors charts information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/dashboardErrorsChartResponse"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /dashboard/updateData:
+    post:
+      summary: Update channel data for given range
+      tags: 
+        - DashboardController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/dashboardUpdateDataRequest"
+      responses:
+       200:
+         $ref: "domail-common-api.yaml#/responses/200NoResponse"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+components:
+  schemas:
+    countsTypeEnum:
+      type: string
+      enum:
+       - TOTAL
+       - AVERAGE
+    countsRangeTypeEnum:
+      type: string
+      enum:
+       - NEAREST
+       - PERIODIC
+    channelTypeEnum:
+      type: string
+      enum:
+        - SMTP
+        - SOAP
+        - REST
+        - UI
+        - ALL
+    errorTypeEnum:
+      type: string
+      description: >-
+        Určuje chybu ktorá mohla nastať pri spracovaní že komunikácia nebola doručená
+      enum:
+        - CANCELLED
+        - FAILED
+        - DUPLICATE
+        - BLACKLISTED
+        - DISPATCH_ERROR
+        - DELIVERY_FAILED
+        - OTHERS
+    dashboardColumnTypeEnum:
+      type: string
+      enum:
+        - TODAY
+        - THIS_DAY
+        - WEEK
+        - MONTH
+    channelCounts:
+      type: object
+      description: >- 
+        Contains column data for specified channel type.
+        All columns are set.
+        If some column is irrelevant for given countsTypeEnum -1 will be used.
+        Today returns always data for current day, while thisDay returns data for current day in week (f.e. average for each Thursday)
+      required:
+        - type
+        - today
+        - thisDay
+        - week
+        - month
+      properties:
+        type:
+          $ref: "#/components/schemas/channelTypeEnum"
+        today:
+          $ref: "#/components/schemas/valueWithTrend"
+        thisDay:
+          $ref: "#/components/schemas/valueWithTrend"
+        week:
+          $ref: "#/components/schemas/valueWithTrend"
+        month:
+          $ref: "#/components/schemas/valueWithTrend"
+    scenarioCounts:
+      type: object
+      description: >- 
+        Contains column data for specified scenario.
+        All columns are set.
+        If some column is irrelevant for given countsTypeEnum -1 will be used.
+        Today returns always data for current day, while thisDay returns data for current day in week (f.e. average for each Thursday)
+      required:
+        - scenarioId
+        - scenarioName
+        - today
+#        - thisDay
+        - week
+        - month
+      properties:
+        scenarioId:
+          $ref: "domail-common-api.yaml#/int64"
+        scenarioName:
+          $ref: "domail-common-api.yaml#/string255"
+        lastCommunicationDate:
+          $ref: "domail-common-api.yaml#/date"
+        today:
+          $ref: "#/components/schemas/valueWithTrend"
+#        thisDay:
+#          $ref: "#/components/schemas/valueWithTrend"
+        week:
+          $ref: "#/components/schemas/valueWithTrend"
+        month:
+          $ref: "#/components/schemas/valueWithTrend"
+    errorCounts:
+      type: object
+      description: >- 
+        Contains column data for specified error type.
+        All columns are set.
+        If some column is irrelevant for given countsTypeEnum -1 will be used.
+        Today returns always data for current day, while thisDay returns data for current day in week (f.e. average for each Thursday)
+      required:
+        - type
+        - today
+        - week
+        - month
+      properties:
+        type:
+          $ref: "#/components/schemas/errorTypeEnum"
+        today:
+          $ref: "#/components/schemas/doubleWithTrend"
+        week:
+          $ref: "#/components/schemas/doubleWithTrend"
+        month:
+          $ref: "#/components/schemas/doubleWithTrend"
+    valueWithTrend:
+      type: object
+      required:
+        - value
+        - trend
+      properties:
+        value:
+          $ref: "domail-common-api.yaml#/int64"
+        trend:
+          type: boolean
+    doubleWithTrend:
+      type: object
+      required:
+        - value
+        - trend
+      properties:
+        value:
+          $ref: "domail-common-api.yaml#/double"
+        trend:
+          type: boolean
+    dashboardChannelsCountsRequest:
+      type: object
+      required:
+        - type
+        - periodType
+      properties:
+        type:
+          $ref: "#/components/schemas/countsTypeEnum"
+        periodType:
+          $ref: "#/components/schemas/countsRangeTypeEnum"
+    dashboardScenariosCountsRequest:
+      type: object
+      required:
+#        - type
+        - periodType
+      properties:
+#        type:
+#          $ref: "#/components/schemas/countsTypeEnum"
+        periodType:
+          $ref: "#/components/schemas/countsRangeTypeEnum"
+    dashboardErrorsCountsRequest:
+      type: object
+    dashboardChannelsChartRequest:
+      allOf:
+        - $ref: "#/components/schemas/dashboardChannelsCountsRequest"
+        - type: object
+          required:
+            - channelType
+            - columnType
+            - periodType
+          properties:
+            channelType:
+              type: array
+              items:
+                $ref: "#/components/schemas/channelTypeEnum"
+              minItems: 1
+            columnType:
+              $ref: "#/components/schemas/dashboardColumnTypeEnum"
+            periodType:
+              $ref: "#/components/schemas/countsRangeTypeEnum"
+    dashboardScenariosChartRequest:
+      allOf:
+        - $ref: "#/components/schemas/dashboardScenariosCountsRequest"
+        - type: object
+          required:
+            - scenario
+            - columnType
+            - periodType
+          properties:
+            scenario:
+              type: array
+              items:
+                $ref: "domail-common-api.yaml#/string255"
+              minItems: 1
+            columnType:
+              $ref: "#/components/schemas/dashboardColumnTypeEnum"
+            periodType:
+              $ref: "#/components/schemas/countsRangeTypeEnum"
+    dashboardErrorsChartRequest:
+      allOf:
+        - $ref: "#/components/schemas/dashboardErrorsCountsRequest"
+        - type: object
+          required:
+            - errorType
+            - columnType
+          properties:
+            errorType:
+              type: array
+              items:
+                $ref: "#/components/schemas/errorTypeEnum"
+              minItems: 1
+            columnType:
+              $ref: "#/components/schemas/dashboardColumnTypeEnum"
+    dashboardUpdateDataRequest:
+      type: object
+      required:
+        - from
+        - to
+      properties:
+        from:
+          type: string
+          format: date
+        to:
+          type: string
+          format: date
+    dashboardChannelsCountsResponse:
+      type: object
+      description: >-
+        Contains array containing rows - each row is one channel type
+      required:
+        - counts
+        - countsType
+        - periodType
+      properties:
+        countsType:
+          $ref: "#/components/schemas/countsTypeEnum"
+        periodType:
+          $ref: "#/components/schemas/countsRangeTypeEnum"
+        counts:
+          type: array
+          items:
+            $ref: "#/components/schemas/channelCounts"
+    dashboardScenariosCountsResponse:
+      type: object
+      description: >-
+        Contains array containing rows - each row is one scenario
+      required:
+        - counts
+#        - countsType
+        - periodType
+      properties:
+#        countsType:
+#          $ref: "#/components/schemas/countsTypeEnum"
+        periodType:
+          $ref: "#/components/schemas/countsRangeTypeEnum"
+        counts:
+          type: array
+          items:
+            $ref: "#/components/schemas/scenarioCounts"
+    dashboardErrorsCountsResponse:
+      type: object
+      description: >-
+        Contains array containing rows - each row is one type of error
+      required:
+        - counts
+      properties:
+        counts:
+          type: array
+          items:
+            $ref: "#/components/schemas/errorCounts"
+    chartData:
+      type: object
+      description: >-
+        Chart data containing specified channel type data
+      required:
+        - channelTypeEnum
+      properties:
+        channelTypeEnum:
+          $ref: "#/components/schemas/channelTypeEnum"
+        data:
+          type: array
+          items:
+            $ref: "domail-common-api.yaml#/int64"
+    scenarioChartData:
+      type: object
+      description: >-
+        Chart data containing specified scenarios data
+      required:
+        - scenario
+      properties:
+        scenario:
+          $ref: "domail-common-api.yaml#/string255"
+        data:
+          type: array
+          items:
+            $ref: "domail-common-api.yaml#/int64"
+    errorChartData:
+      type: object
+      description: >-
+        Chart data containing specified error type data
+      required:
+        - errorTypeEnum
+      properties:
+        errorTypeEnum:
+          $ref: "#/components/schemas/errorTypeEnum"
+        data:
+          type: array
+          items:
+            $ref: "domail-common-api.yaml#/double"
+    dashboardChannelsChartResponse:
+      type: object
+      description: >-
+        Contains array of values to show in graph.
+        Values are ordered from oldest to current date/week.
+        In dataKeys array there is context for given values. 
+        It contains key values to be translated on UI. 
+      required:
+        - countsType
+        - columnType
+        - periodType
+        - data
+        - dataKeys
+      properties:
+        countsType:
+          $ref: "#/components/schemas/countsTypeEnum"
+        columnType:
+          $ref: "#/components/schemas/dashboardColumnTypeEnum"
+        periodType:
+          $ref: "#/components/schemas/countsRangeTypeEnum"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/chartData"
+        dataKeys:
+          type: array
+          items:
+            $ref: "domail-common-api.yaml#/string255"
+    dashboardScenariosChartResponse:
+      type: object
+      description: >-
+        Contains array of values to show in graph.
+        Values are ordered from oldest to current date/week.
+        In dataKeys array there is context for given values. 
+        It contains key values to be translated on UI. 
+        For example year, name of month or date.
+      required:
+#        - countsType
+        - columnType
+        - periodType
+        - data
+        - dataKeys
+      properties:
+#        countsType:
+#          $ref: "#/components/schemas/countsTypeEnum"
+        columnType:
+          $ref: "#/components/schemas/dashboardColumnTypeEnum"
+        periodType:
+          $ref: "#/components/schemas/countsRangeTypeEnum"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/scenarioChartData"
+        dataKeys:
+          type: array
+          items:
+            $ref: "domail-common-api.yaml#/string255"
+    dashboardErrorsChartResponse:
+      type: object
+      description: >-
+        Contains array of values to show in graph.
+        Values are ordered from oldest to current date/week.
+        In dataKeys array there is context for given values. 
+        It contains key values to be translated on UI. 
+      required:
+        - columnType
+        - data
+        - dataKeys
+      properties:
+        columnType:
+          $ref: "#/components/schemas/dashboardColumnTypeEnum"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/errorChartData"
+        dataKeys:
+          type: array
+          items:
+            $ref: "domail-common-api.yaml#/string255"
+    dashboardMainWidgetsResponse:
+      type: object
+      properties:
+        communications:
+          $ref: "#/components/schemas/widgetData"
+        errors:
+          $ref: "#/components/schemas/widgetData"
+        scenarios:
+          $ref: "#/components/schemas/widgetDataScenario"
+    widgetDataScenario:
+      type: object
+      properties:
+        widget:
+          type: array
+          items:
+            $ref: "#/components/schemas/widgetRowDataScenario"
+        chart:
+          type: array
+          items:
+            $ref: "#/components/schemas/widgetRowDataScenario"
+    widgetData:
+      type: object
+      properties:
+        widget:
+          $ref: "#/components/schemas/widgetMainData"
+        chart:
+          type: array
+          items:
+            $ref: "#/components/schemas/widgetRowData"
+    widgetRowData:
+      type: object
+      properties:
+        label:
+          $ref: "domail-common-api.yaml#/string255"
+        value:
+          $ref: "domail-common-api.yaml#/int64"
+    widgetRowDataScenario:
+      type: object
+      properties:
+        label:
+          $ref: "domail-common-api.yaml#/string255"
+        scenarioId:
+          $ref: "domail-common-api.yaml#/int64"
+        value:
+          $ref: "domail-common-api.yaml#/int64"
+    widgetMainData:
+      type: object
+      properties:
+        today:
+          $ref: "domail-common-api.yaml#/int64"
+        week:
+          $ref: "domail-common-api.yaml#/int64"
+        month:
+          $ref: "domail-common-api.yaml#/int64"
+        year:
+          $ref: "domail-common-api.yaml#/int64"
+    mainDashboardRequest:
+      type: object
+      required:
+        - chart
+        - period
+      properties:
+        chart:
+          type: string
+          enum:
+            - COMMUNICATIONS
+            - ERRORS
+            - SCENARIOS
+        period:
+          type: string
+          enum:
+            - DAILY
+            - MONTHLY
+    mainDashboardResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/widgetLayerData"
+    widgetLayerData:
+      type: object
+      properties:
+        name:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/widgetRowData"

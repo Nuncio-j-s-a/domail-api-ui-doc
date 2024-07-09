@@ -1,0 +1,2366 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0 
+  title: Domail konfiguaracia - sablony, scenare, skripty
+  license:
+    name: Proprietary
+  description: konfiguaracia - sablony, scenare, skripty
+paths:
+  /script/{id}/duplicate:
+    post:
+      summary: duplicate a script
+      tags:
+        - ScriptController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the script
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DuplicateRequest"
+      responses:
+        200:
+          description: duplicated script
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/DuplicateResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /script/codeComplete/{type}:
+    get:
+      summary: get list of codecomplete entries
+      tags:
+        - ScriptController
+      parameters:
+        - in: path
+          name: type
+          schema:
+            $ref: "domail-common-api.yaml#/scriptTypeEnum"
+          required: true
+          description: Type of script we need code complete for
+      responses:
+        200:
+          description: return list of code complete entries
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/codeCompleteList"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /script/builderListRequest:
+    post:
+      summary: filter list of builder script entries
+      tags: 
+        - ScriptController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/scriptBuilderListRequest"
+      responses:
+        200:
+          description: filter list of builder script entries
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/scriptBuilderListResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /script/default:
+    get:
+      summary: get information about default script content
+      tags:
+        - ScriptController
+      responses:
+        200:
+          description: return information about script
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/contentScript"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /scenario/eml/tryQuery:
+    post:
+      summary: >-
+        Send eml script for validation and try to query some communications matching given eml script.
+        If validation failed return 400 with details.
+        If validation succeeds return 200 and sample of communications matching eml script.
+      tags:
+        - ScenarioController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/contentScriptRequest"
+      responses:
+       200:
+         description: Returns sample of communications
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/emailContentSummaryList"
+       400:
+         $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /script/constant:
+    put:
+      summary: insert new script constant
+      tags: 
+        - ScriptController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newScriptConstant"
+      responses:
+        200:
+          description:  constant
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/scriptConstant"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /script/constant/{id}:
+    delete:
+      summary: remove script constant
+      tags: 
+        - ScriptController
+      parameters:
+        - in: path
+          name: id
+          schema: 
+            $ref: "domail-common-api.yaml#/int32"
+          required: true
+          description: ID of the script constant
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+    post:
+      summary: edit script constant
+      tags: 
+        - ScriptController
+      parameters:
+        - in: path
+          name: id
+          schema: 
+            $ref: "domail-common-api.yaml#/int32"
+          required: true
+          description: ID of the script constant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/editScriptConstant"
+      responses:
+        200:
+          description: edit script constant
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/scriptConstant"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /script/constantListRequest:
+    post:
+      summary: filter list of script constants
+      tags: 
+        - ScriptController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/scriptConstantListRequest"
+      responses:
+        200:
+          description: filter list of script constants
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/scriptConstantListResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /script/test:
+    post:
+      summary: test of script
+      tags: 
+        - ScriptController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/testScriptRequest"
+      responses:
+        200:
+          description: result of test run of script
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/testScriptResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /script:
+    put:
+      summary: Insert new script
+      tags: 
+        - ScriptController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newScript"
+      responses:
+        200:
+          description: information about script
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/script"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /script/{id}:
+    get:
+      summary: get informaiton about script
+      tags:
+        - ScriptController
+      parameters:
+        - in: path
+          name: id
+          schema: 
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the script
+      responses:
+        200:
+          description: return information about script
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/script"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+    post:
+      summary: edit script
+      tags: 
+        - ScriptController
+      parameters:
+        - in: path
+          name: id
+          schema: 
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the script
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newScript"
+      responses:
+        200:
+          description: edit constants of scenarios
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/script"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+    delete:
+      summary: delete script item
+      tags: 
+        - ScriptController
+      parameters:
+        - in: path
+          name: id
+          schema: 
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the script
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /scriptListRequest:
+    post:
+      summary: filter list of scripts
+      tags: 
+        - ScriptController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/scriptListRequest"
+      responses:
+        200:
+          description: filter list of scripts
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/scriptListResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /scenario/{id}/duplicate:
+    post:
+      summary: duplicate a scenario
+      tags:
+        - ScenarioController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the scenario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DuplicateRequest"
+      responses:
+        200:
+          description: duplicated script
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/DuplicateResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /scenario/{id}/constants:
+    post:
+      summary: edit constants of scenario
+      tags: 
+        - ScenarioController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the scenario constant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newScenarioConstants"
+      responses:
+        200:
+          description: edit constants of scenarios
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/scenarioConstants"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+    get:
+      summary: get constants for scenario
+      tags:
+        - ScenarioController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the scenario constant
+      responses:
+        200:
+          description: return constants for scenario
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/scenarioConstants"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /scenario/constants:
+    get:
+      summary: get all constants
+      tags:
+        - ScenarioController
+      responses:
+        200:
+          description: return all constants
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/constants"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /scenarioListRequest:
+    post:
+      summary: filter list of scenarios
+      tags: 
+        - ScenarioController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/scenarioListRequest"
+      responses:
+        200:
+          description: filter list of scenarios
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/scenarioListResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /scenario:
+    put:
+      summary: Insert new scenario
+      tags: 
+        - ScenarioController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newScenario"
+      responses:
+        200:
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/scenario"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /scenario/{id}:
+    get:
+      summary: get information about scenario
+      tags:
+        - ScenarioController
+      parameters:
+       - in: path
+         name: id
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the scenario
+      responses:
+        200:
+          description: return scenario
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/scenario"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+    post:
+      summary: Edit scenario
+      tags: 
+        - ScenarioController
+      parameters:
+        - in: path
+          name: id
+          schema: 
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the scenario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/editScenario"
+      responses:
+       200:
+         description: Returns edited scenario information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/scenario"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+    delete:
+      summary: delete scenario item
+      tags: 
+        - ScenarioController
+      parameters:
+        - in: path
+          name: id
+          schema: 
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the scenario
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /template/{templateKey}/duplicate:
+    post:
+      summary: duplicate a template
+      tags:
+        - TemplateController
+      parameters:
+       - in: path
+         name: templateKey
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DuplicateRequest"
+      responses:
+        200:
+          description: duplicated template
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/DuplicateResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /template/{templateKey}/validate:
+    post:
+      summary: validate a template
+      tags:
+        - TemplateController
+      parameters:
+       - in: path
+         name: templateKey
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/templateDetailUpdate"
+      responses:
+        200:
+          description: result of validation
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/validationResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /attachment/{templateKey}/{uri}:
+    delete:
+      summary: remove attachment form template
+      tags: 
+        - TemplateController
+      parameters:
+        - in: path
+          name: templateKey
+          schema: 
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the template
+        - in: path
+          name: uri
+          schema: 
+           $ref: "domail-common-api.yaml#/string1024"
+          required: true
+          description: uri of the picture
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /attachments/{templateKey}:
+    get:
+      summary: get list of attachments for template
+      tags:
+        - TemplateController
+      parameters:
+       - in: path
+         name: templateKey
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the template
+      responses:
+        200:
+          description: return uri of attachment
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/attachmentFileListResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /attachment/{templateKey}:
+    post:
+      summary: load attachment for template to server
+      tags:
+        - TemplateController
+      parameters:
+       - in: path
+         name: templateKey
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/attachmentFileRequest"
+      responses:
+        200:
+          description: return uri of attachment
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/attachmentFileResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /templateFile/{templateKey}/{uri}/analyze:
+    post:
+      summary: analyze file for template
+      tags:
+        - TemplateController
+      parameters:
+       - in: path
+         name: templateKey
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the template
+       - in: path
+         name: uri
+         schema: 
+           $ref: "domail-common-api.yaml#/string255"
+         required: true
+         description: uri
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/templateFileAnalyzeRequest"
+      responses:
+        200:
+          description: return columns
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/templateFileAnalyzeResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /templateFile/{templateKey}/{uri}:
+    get:
+      summary: download template file from server
+      tags:
+        - TemplateController
+      parameters:
+       - in: path
+         name: templateKey
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the template
+       - in: path
+         name: uri
+         schema: 
+           $ref: "domail-common-api.yaml#/string1024"
+         required: true
+         description: uri of the picture
+      responses:
+        200:
+          description: return file data
+          content:
+            application/json:   
+              schema:
+                $ref: "domail-common-api.yaml#/byteArrayResource"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /templateFile/{templateKey}:
+    post:
+      summary: load file for template to server
+      tags:
+        - TemplateController
+      parameters:
+       - in: path
+         name: templateKey
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/templateFileRequest"
+      responses:
+        200:
+          description: return columns
+          content:
+            application/json:   
+              schema:
+                $ref: "#/components/schemas/templateFileResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /templateListRequest:
+    get:
+      summary: get list of all templates
+      tags: 
+        - TemplateController
+      responses:
+        200:
+          description: list of all templates
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/templateListResponse" 
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+    post:
+      summary: filter list of templates
+      tags: 
+        - TemplateController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/templateListRequest"
+      responses:
+        200:
+          description: filter list of templates
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/templateListResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /template/{templateKey}:
+    post:
+      summary: Save detail infotmation about template
+      tags: 
+        - TemplateController
+      parameters:
+       - in: path
+         name: templateKey
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/templateDetailUpdate"
+      responses:
+        200:
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/templateDetailInformation"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+    get:
+      summary: Get detail infotmation about template
+      tags: 
+        - TemplateController
+      parameters:
+       - in: path
+         name: templateKey
+         schema: 
+           $ref: "domail-common-api.yaml#/int64"
+         required: true
+         description: ID of the template
+      responses:
+       200:
+         description: Returns template information
+         content:
+           application/json:
+             schema:
+               $ref: "#/components/schemas/templateDetailInformation"
+       400:
+          $ref: "domail-common-api.yaml#/responses/400"
+       401:
+         $ref: "domail-common-api.yaml#/responses/401"
+       403:
+         $ref: "domail-common-api.yaml#/responses/403"
+       404:
+         $ref: "domail-common-api.yaml#/responses/404"
+       default:
+         $ref: "domail-common-api.yaml#/responses/default"
+    delete:
+      summary: >- 
+        Remove whole template entry (all versions).
+        Template cannot be used in scenario!
+        Template version cannot be used in communication!
+      tags:
+        - TemplateController
+      parameters:
+        - in: path
+          name: templateKey
+          schema: 
+           $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the template
+      responses:
+        200:
+         description: Expected response to a valid request
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+         $ref: "domail-common-api.yaml#/responses/401"
+        403:
+         $ref: "domail-common-api.yaml#/responses/403"
+        404:
+         $ref: "domail-common-api.yaml#/responses/404"
+        default:
+         $ref: "domail-common-api.yaml#/responses/default"
+  /template:
+    put:
+      summary: Insert new template
+      tags: 
+        - TemplateController
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newTemplateDetail"
+      responses:
+        200:
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/templateDetailInformation"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /picture/{templateKey}/{uri}:
+    get:
+      summary: get full picture
+      tags: 
+        - TemplateController
+      parameters:
+        - in: path
+          name: templateKey
+          schema: 
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the template
+        - in: path
+          name: uri
+          schema: 
+           $ref: "domail-common-api.yaml#/string1024"
+          required: true
+          description: uri of the picture
+      responses:
+        200:
+          description: data of picture
+          content:
+            application/json:    
+              schema:
+                $ref: "domail-common-api.yaml#/byteArrayResource"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+    delete:
+      summary: remove picture form template
+      tags: 
+        - TemplateController
+      parameters:
+        - in: path
+          name: templateKey
+          schema: 
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the template
+        - in: path
+          name: uri
+          schema: 
+           $ref: "domail-common-api.yaml#/string1024"
+          required: true
+          description: uri of the picture
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /pictures/{templateKey}:
+    get:
+      summary: get list of all pictures
+      tags: 
+        - TemplateController
+      parameters:
+        - in: path
+          name: templateKey
+          schema: 
+           $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the template
+      responses:
+        200:
+          description: list of all pictures
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/pictureList"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /picture/{templateKey}:
+    post:
+      summary: upload new picture to gallery
+      tags: 
+        - TemplateController
+      parameters:
+        - in: path
+          name: templateKey
+          schema: 
+           $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/pictureEntryUpload"
+      responses:
+        200:
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/pictureEntryResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /item/{uri}:
+    get:
+      summary: get full item in gallery
+      tags: 
+        - GalleryController
+      parameters:
+        - in: path
+          name: uri
+          schema: 
+           $ref: "domail-common-api.yaml#/string1024"
+          required: true
+          description: uri of the item
+      responses:
+        200:
+          description: data of item
+          content:
+            application/json:    
+              schema:
+                $ref: "domail-common-api.yaml#/byteArrayResource"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+    delete:
+      summary: remove item form gallery
+      tags: 
+        - GalleryController
+      parameters:
+        - in: path
+          name: uri
+          schema: 
+           $ref: "domail-common-api.yaml#/string1024"
+          required: true
+          description: uri of the item
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /itemListRequest/{itemType}:
+    post:
+      summary: get list of all items from gallery
+      tags: 
+        - GalleryController
+      parameters:
+        - in: path
+          name: itemType
+          schema: 
+           $ref: "domail-common-api.yaml#/itemTypeEnum"
+          required: true
+          description: type of item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/itemListRequest"
+      responses:
+        200:
+          description: filter list of items
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/itemListResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /item/{itemType}:
+    post:
+      summary: upload new item to gallery
+      tags: 
+        - GalleryController
+      parameters:
+        - in: path
+          name: itemType
+          schema: 
+           $ref: "domail-common-api.yaml#/itemTypeEnum"
+          required: true
+          description: type of item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/itemEntryUpload"
+      responses:
+        200:
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/itemEntryResponse"
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /register/picture/{templateKey}:
+    post:
+      summary: register picture from gallery to template
+      tags: 
+        - TemplateController
+      parameters:
+        - in: path
+          name: templateKey
+          schema: 
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/uriList"
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+  /register/attachment/{templateKey}:
+    post:
+      summary: register attachment from gallery to template
+      tags: 
+        - TemplateController
+      parameters:
+        - in: path
+          name: templateKey
+          schema: 
+            $ref: "domail-common-api.yaml#/int64"
+          required: true
+          description: ID of the template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/uriList"
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "domail-common-api.yaml#/responses/400"
+        401:
+          $ref: "domail-common-api.yaml#/responses/401"
+        403:
+          $ref: "domail-common-api.yaml#/responses/403"
+        404:
+          $ref: "domail-common-api.yaml#/responses/404"
+        default:
+          $ref: "domail-common-api.yaml#/responses/default"
+      
+########################################################################################################################    
+          
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://uvzbuild:8080/auth/realms/dominanz/protocol/openid-connect/auth
+          scopes: {}
+  schemas:
+    scriptBuilderListRequest:
+      allOf:
+        - $ref: "domail-common-api.yaml#/components/schemas/listRequest"
+        - type: object
+          required:
+            - filter
+          properties:
+            filter:
+              $ref: "#/components/schemas/scriptBuilderRequestFilter"
+    scriptConstantListRequest:
+      allOf:
+        - $ref: "domail-common-api.yaml#/components/schemas/listRequest"
+        - type: object
+          required:
+            - filter
+          properties:
+            filter:
+              $ref: "#/components/schemas/scriptConstantRequestFilter"
+    scriptListRequest:
+      allOf:
+        - $ref: "domail-common-api.yaml#/components/schemas/listRequest"
+        - type: object
+          required:
+            - filter
+          properties:
+            filter:
+              $ref: "#/components/schemas/scriptRequestFilter"
+    itemListRequest:
+      allOf:
+        - $ref: "domail-common-api.yaml#/components/schemas/listRequest"
+        - type: object
+          required:
+            - filter
+          properties:
+            filter:
+              $ref: "#/components/schemas/itemRequestFilter"
+    scenarioListRequest:
+      allOf:
+        - $ref: "domail-common-api.yaml#/components/schemas/listRequest"
+        - type: object
+          required:
+            - filter
+          properties:
+            filter:
+              $ref: "#/components/schemas/scenarioRequestFilter"
+    templateListRequest:
+      allOf:
+        - $ref: "domail-common-api.yaml#/components/schemas/listRequest"
+        - type: object
+          required:
+            - filter
+          properties:
+            filter:
+              $ref: "#/components/schemas/templateRequestFilter"
+    scriptBuilderRequestFilter:
+      type: object
+      properties:
+        scriptType: 
+         $ref: "domail-common-api.yaml#/scriptTypeEnum"  
+    scriptConstantRequestFilter:
+      type: object
+      properties:
+        name: 
+         $ref: "domail-common-api.yaml#/string50"  
+    scriptRequestFilter:
+      type: object
+      properties:
+        name: 
+         $ref: "domail-common-api.yaml#/string255"  
+    itemRequestFilter:
+      type: object
+      properties:
+        name: 
+         $ref: "domail-common-api.yaml#/string255" 
+    scenarioRequestFilter:
+      type: object
+      properties:
+        scenario:
+         $ref: "domail-common-api.yaml#/string255" 
+        group:
+         $ref: "domail-common-api.yaml#/string50"
+        category: 
+         $ref: "domail-common-api.yaml#/string50"
+        operation: 
+         $ref: "domail-common-api.yaml#/string50"
+        type:
+         $ref: "domail-common-api.yaml#/scenarioTypeEnum" 
+    templateRequestFilter:
+      type: object
+      properties:
+        name: 
+         $ref: "domail-common-api.yaml#/string255"   
+    attachmentFileRequest:
+      type: object
+      properties:
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        file:
+          $ref: "domail-common-api.yaml#/byteArrayResource"
+        isPublic:
+          type: boolean
+    attachmentFileResponse:
+      type: object
+      properties:
+        uri:
+          $ref: "domail-common-api.yaml#/string1024"
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        mime:
+          $ref: "domail-common-api.yaml#/string255"
+        size:
+          $ref: "domail-common-api.yaml#/int64"
+        created:
+          $ref: "domail-common-api.yaml#/datetime"
+        createdBy:
+          $ref: "domail-common-api.yaml#/string255"
+    attachmentFileListResponse:
+      type: array
+      items:
+        $ref: "#/components/schemas/attachmentFileResponse"
+    templateFileAnalyzeRequest:
+      type: object
+      properties:
+        header:
+          type: boolean
+          default: false
+        separator:
+          $ref: "domail-common-api.yaml#/string255"
+        delimiter:
+          $ref: "domail-common-api.yaml#/string255"
+        customSeparator:
+          $ref: "domail-common-api.yaml#/string255"
+        customDelimiter:
+          $ref: "domail-common-api.yaml#/string255"
+        type:
+          $ref: "domail-common-api.yaml#/templateDataFileEnum"
+    templateFileRequest:
+      type: object
+      required:
+        - name
+        - file
+        - primary
+      properties:
+        name:
+          $ref: "domail-common-api.yaml#/string255"
+        primary:
+          type: boolean
+          default: false
+        file:
+          $ref: "domail-common-api.yaml#/byteArrayResource"
+    templateFileAnalyzeResponse:
+      type: object
+      properties:
+        columns:
+          type: array
+          items:
+            $ref: "#/components/schemas/templateColumn"
+    templateFileResponse:
+      type: object
+      properties:
+        uri:
+          $ref: "domail-common-api.yaml#/string1024"
+    codeCompleteList:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/codeCompleteEntry"
+    scriptBuilderListResponse:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/scriptBuilderEntry"
+    scriptConstantListResponse:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/scriptConstantEntry"
+    scriptListResponse:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/scriptEntry"
+    itemListResponse:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/itemEntry"
+    scenarioListResponse:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/scenarioEntry"
+    templateListResponse:
+      type: object
+      properties:
+        count:
+          $ref: "domail-common-api.yaml#/int64"
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/templateEntry"
+    codeCompleteEntry:
+      type: object
+      properties:
+        label:
+          type: string
+        script:
+          type: string
+        help:
+          type: string
+    newScenarioConstants:
+      type: array
+      items:
+        $ref: "#/components/schemas/newScenarioConstantEntry"
+    scenarioConstants:
+      type: array
+      items:
+        $ref: "#/components/schemas/scenarioConstantEntry"
+    constants:
+      type: array
+      items:
+        $ref: "#/components/schemas/constantEntry"
+    newScenarioConstantEntry:
+      type: object
+      properties:
+        name:
+          $ref: "domail-common-api.yaml#/string255" 
+        value:
+          $ref: "domail-common-api.yaml#/string255" 
+    scenarioConstantEntry:
+      type: object
+      properties:
+        name:
+          $ref: "domail-common-api.yaml#/string255" 
+        displayName:
+          $ref: "domail-common-api.yaml#/string255" 
+        value:
+          $ref: "domail-common-api.yaml#/string255" 
+    constantEntry:
+      type: object
+      properties:
+        name:
+          $ref: "domail-common-api.yaml#/string255" 
+        displayName:
+          $ref: "domail-common-api.yaml#/string255" 
+        defaultValue:
+          $ref: "domail-common-api.yaml#/string255" 
+    scriptBuilderEntry:
+      description: Object for information about script builder entry for list of script builder entries
+      type: object
+      properties:         
+       name:
+         $ref: "domail-common-api.yaml#/string255" 
+       description:
+         $ref: "domail-common-api.yaml#/string1024"
+       script:
+        type: string
+       scriptType:
+        $ref: "domail-common-api.yaml#/scriptTypeEnum"
+    scriptConstantEntry:
+      description: Object for information about script constant for list of script constants
+      type: object
+      properties:     
+       id:
+         $ref: "domail-common-api.yaml#/int32"      
+       name:
+         $ref: "domail-common-api.yaml#/string50" 
+       value:
+         $ref: "domail-common-api.yaml#/string1024"
+       created:
+         $ref: "domail-common-api.yaml#/datetime" 
+       createdBy:
+         $ref: "domail-common-api.yaml#/string255"
+       changed:
+         $ref: "domail-common-api.yaml#/datetime" 
+       changedBy:
+         $ref: "domail-common-api.yaml#/string255"  
+    scriptEntry:
+      description: Object for information about script for list of scripts
+      type: object
+      properties:     
+       id:
+         $ref: "domail-common-api.yaml#/int64"      
+       name:
+         $ref: "domail-common-api.yaml#/string255" 
+       sendEmail:
+         type: boolean
+       saveToCoar:
+         type: boolean
+       description:
+         $ref: "domail-common-api.yaml#/string255" 
+    scenarioEntry:
+      description: Object for information about scenario for list of scenarios
+      type: object
+      properties:     
+       id:
+         $ref: "domail-common-api.yaml#/int64"     
+       scenario:
+         $ref: "domail-common-api.yaml#/string255"
+       enabled:
+         type: boolean
+       templateName:
+         $ref: "domail-common-api.yaml#/string255"
+       scriptName:
+         $ref: "domail-common-api.yaml#/string255"
+       description:
+         $ref: "domail-common-api.yaml#/string255"
+       isDefault:
+         type: boolean
+       type:
+         $ref: "domail-common-api.yaml#/scenarioTypeEnum"
+    editScenario:
+      description: edit scenario entry
+      type: object
+      required:
+        - scenario
+        - scriptId
+        - priority
+        - enabled
+        - scenarioScript
+      properties:
+       scenario:
+         $ref: "domail-common-api.yaml#/std255Regex"
+       group:
+         $ref: "domail-common-api.yaml#/std50RegexOpt" 
+       category:
+         $ref: "domail-common-api.yaml#/std50RegexOpt" 
+       enabled:
+         type: boolean
+       priority:
+         type: boolean
+       templateId:
+         $ref: "domail-common-api.yaml#/int64"  
+       scriptId:
+         $ref: "domail-common-api.yaml#/int64"
+       description:
+         $ref: "domail-common-api.yaml#/string255" 
+       scenarioScript:
+         $ref: "domail-common-api.yaml#/string65535" 
+    newScenario:
+      description: >- 
+        Data for new scenario.
+        New scenario is created as not enabled because it misses some important parts - configuration, script,... 
+        so scenario must be configured further and enabled.
+      type: object
+      required:
+        - type
+        - scenario
+        - scriptId
+        - priority
+      properties:
+       scenario:
+         $ref: "domail-common-api.yaml#/std255Regex"
+       group:
+         $ref: "domail-common-api.yaml#/std50RegexOpt"
+       category:
+         $ref: "domail-common-api.yaml#/std50RegexOpt"
+       type:
+         $ref: "domail-common-api.yaml#/scenarioTypeEnum"
+       priority:
+         type: boolean
+       templateId:
+         $ref: "domail-common-api.yaml#/int64"  
+       scriptId:
+         $ref: "domail-common-api.yaml#/int64"
+       description:
+         $ref: "domail-common-api.yaml#/string255"
+    editScriptConstant:
+      description: edit script constant entry
+      type: object
+      properties:         
+       value: 
+         $ref: "domail-common-api.yaml#/string1024"
+    newScriptConstant:
+      description: new script constant entry
+      type: object
+      properties:         
+       name:
+         $ref: "domail-common-api.yaml#/string50"
+       value: 
+         $ref: "domail-common-api.yaml#/string1024"
+    scriptConstant:
+      description: script constant entry
+      type: object
+      properties: 
+       id:
+         $ref: "domail-common-api.yaml#/int32"    
+       name:
+         $ref: "domail-common-api.yaml#/string50"
+       value: 
+         $ref: "domail-common-api.yaml#/string1024"
+    newScript:
+      description: new script entry
+      type: object
+      required:
+        - name
+        - script
+        - sendEmail
+        - saveToCoar
+      properties:         
+       name:
+         $ref: "domail-common-api.yaml#/string100" 
+       script:
+         $ref: "domail-common-api.yaml#/string65535"
+       sendEmail:
+         type: boolean
+       saveToCoar:
+         type: boolean
+       description:
+         $ref: "domail-common-api.yaml#/string1024" 
+    script:
+      description: information about script
+      type: object
+      properties:
+       id:
+         $ref: "domail-common-api.yaml#/int64"
+       name:
+         $ref: "domail-common-api.yaml#/string100" 
+       script:
+         type: string
+       sendEmail:
+         type: boolean
+       saveToCoar:
+         type: boolean
+       description:
+         $ref: "domail-common-api.yaml#/string1024" 
+       created:
+         $ref: "domail-common-api.yaml#/datetime" 
+       createdBy:
+         $ref: "domail-common-api.yaml#/string255"
+       changed:
+         $ref: "domail-common-api.yaml#/datetime" 
+       changedBy:
+         $ref: "domail-common-api.yaml#/string255" 
+    testScriptRequest:
+      description: text of script to test
+      type: object
+      properties:
+        script:
+          type: string
+    testScriptResponse:
+      description: result of script test
+      type: object
+      properties:
+        valid:
+          type: boolean
+        errorLineNumber:
+          $ref: "domail-common-api.yaml#/int32" 
+        errorColumnNumber:
+          $ref: "domail-common-api.yaml#/int32" 
+        message:
+          type: string
+    scenario:
+      description: information about scenario
+      type: object
+      properties:
+       id:
+         $ref: "domail-common-api.yaml#/int64"
+       scenario:
+         $ref: "domail-common-api.yaml#/std255Regex"
+       group:
+         $ref: "domail-common-api.yaml#/std50RegexOpt"
+       category:
+         $ref: "domail-common-api.yaml#/std50RegexOpt"
+       type:
+         $ref: "domail-common-api.yaml#/scenarioTypeEnum"
+       enabled:
+         type: boolean
+       priority:
+         type: boolean
+       templateName:
+         $ref: "domail-common-api.yaml#/string255"
+       templateId:
+         $ref: "domail-common-api.yaml#/int64"  
+       scriptName:
+         $ref: "domail-common-api.yaml#/string255"
+       scriptId:
+         $ref: "domail-common-api.yaml#/int64"
+       description:
+         $ref: "domail-common-api.yaml#/string255" 
+       scenarioScript:
+         type: string
+       created:
+         $ref: "domail-common-api.yaml#/datetime" 
+       createdBy:
+         $ref: "domail-common-api.yaml#/string255"
+       changed:
+         $ref: "domail-common-api.yaml#/datetime" 
+       changedBy:
+         $ref: "domail-common-api.yaml#/string255" 
+       isDefault:
+         type: boolean
+    templateEntry:
+      description: Object for information about template for list of templates
+      type: object
+      required:
+       - id
+       - name
+       - created
+       - createdBy
+      properties:     
+       id:
+         $ref: "domail-common-api.yaml#/int64"      
+       name:
+         $ref: "domail-common-api.yaml#/string255" 
+       description:
+         $ref: "domail-common-api.yaml#/string1024" 
+       created:
+         $ref: "domail-common-api.yaml#/datetime" 
+       createdBy:
+         $ref: "domail-common-api.yaml#/string255"
+       changed:
+         $ref: "domail-common-api.yaml#/datetime" 
+       changedBy:
+         $ref: "domail-common-api.yaml#/string255" 
+    templateDetailUpdate:
+      type: object
+      required:
+        - name
+        - bodyHtml
+      properties:  
+       name:
+         $ref: "domail-common-api.yaml#/string255" 
+       description:
+         $ref: "domail-common-api.yaml#/string1024"
+       email_params:
+         $ref: "#/components/schemas/emailParams"
+       bodyHtml:
+         $ref: "domail-common-api.yaml#/string100000"
+       source:
+         $ref: "#/components/schemas/sourceFile" 
+       additional_tables:
+         type: array
+         items:
+           $ref: "#/components/schemas/templateAdditionalTable"
+       attachments:
+         type: array
+         items:
+           $ref: "#/components/schemas/templateAttachment"
+    newTemplateDetail:
+      type: object
+      required:
+       - name
+      properties:
+        name:
+         $ref: "domail-common-api.yaml#/string255" 
+        description:
+         $ref: "domail-common-api.yaml#/string1024"
+    templateDetailInformation:
+      type: object
+      required:
+       - name
+      properties:  
+       id:
+         $ref: "domail-common-api.yaml#/int64" 
+       version:
+         $ref: "domail-common-api.yaml#/int32"
+       name:
+         $ref: "domail-common-api.yaml#/string255" 
+       description:
+         $ref: "domail-common-api.yaml#/string1024"
+       email_params:
+         $ref: "#/components/schemas/emailParams"
+       bodyHtml:
+         $ref: "domail-common-api.yaml#/string100000"
+       source:
+         $ref: "#/components/schemas/sourceFile" 
+       additional_tables:
+         type: array
+         items:
+           $ref: "#/components/schemas/templateAdditionalTable"
+       attachments:
+         type: array
+         items:
+           $ref: "#/components/schemas/templateAttachment"
+       pictures:
+         type: array
+         items:
+           $ref: "#/components/schemas/templatePicture"
+       created:
+         $ref: "domail-common-api.yaml#/datetime" 
+       createdBy:
+         $ref: "domail-common-api.yaml#/string255"
+       changed:
+         $ref: "domail-common-api.yaml#/datetime" 
+       changedBy:
+         $ref: "domail-common-api.yaml#/string255" 
+    emailParams:
+      type: object
+      properties:
+        send_to:
+          $ref: "domail-common-api.yaml#/string2048"
+        subject:
+          $ref: "domail-common-api.yaml#/string2048"
+    sourceFileUpdate:
+      type: object
+      required:
+        - uri
+        - file_name
+        - header
+      properties:
+        uri:
+          $ref: "domail-common-api.yaml#/string255"
+        file_name:
+         $ref: "domail-common-api.yaml#/string255" 
+        header:
+         type: boolean
+        separator:
+          $ref: "domail-common-api.yaml#/string255" 
+        customSeparator:
+          $ref: "domail-common-api.yaml#/string255" 
+        delimiter:
+          $ref: "domail-common-api.yaml#/string255" 
+        customDelimiter:
+          $ref: "domail-common-api.yaml#/string255" 
+        columns:
+         type: array
+         items:
+           $ref: "#/components/schemas/templateColumn"  
+    sourceFile:
+      type: object
+      required:
+        - uri
+        - file_name
+        - header
+      properties:
+        uri:
+          $ref: "domail-common-api.yaml#/string255"
+        file_name:
+         $ref: "domail-common-api.yaml#/string255" 
+        header:
+         type: boolean
+        type:
+          $ref: "domail-common-api.yaml#/templateDataFileEnum" 
+        separator:
+          $ref: "domail-common-api.yaml#/string255" 
+        customSeparator:
+          $ref: "domail-common-api.yaml#/string255" 
+        delimiter:
+          $ref: "domail-common-api.yaml#/string255" 
+        customDelimiter:
+          $ref: "domail-common-api.yaml#/string255" 
+        columns:
+         type: array
+         items:
+           $ref: "#/components/schemas/templateColumn"  
+    templateAdditionalTable:  
+      description: Object for information about connected table for template
+      type: object
+      required:
+       - uri
+       - file_name
+       - header
+      properties:
+       uri:
+         $ref: "domail-common-api.yaml#/string255"
+       file_name: 
+         $ref: "domail-common-api.yaml#/string255" 
+       header:
+         type: boolean
+       columns:
+         type: array
+         items:
+           $ref: "#/components/schemas/templateColumn"
+       separator:
+         $ref: "domail-common-api.yaml#/string255" 
+       customSeparator:
+         $ref: "domail-common-api.yaml#/string255" 
+       delimiter:
+         $ref: "domail-common-api.yaml#/string255" 
+       customDelimiter:
+         $ref: "domail-common-api.yaml#/string255" 
+       join_column_primary:
+         $ref: "domail-common-api.yaml#/string255" 
+       join_column_table:
+         $ref: "domail-common-api.yaml#/string255" 
+    templateColumn:  
+      type: object
+      required:
+       - column_order
+       - original_column_name
+      properties:
+       column_order:
+         $ref: "domail-common-api.yaml#/int32" 
+       original_column_name:
+         $ref: "domail-common-api.yaml#/string255" 
+       custom_column_name:
+         $ref: "domail-common-api.yaml#/string255" 
+       column_value:
+         $ref: "domail-common-api.yaml#/string1024" 
+       is_attachment:
+         type: boolean
+         default: false
+    templateAttachment:  
+      type: object
+      required:
+        - uri
+      properties:
+       uri: 
+         $ref: "domail-common-api.yaml#/string255" 
+    templatePicture:  
+      type: object
+      properties:
+       picture_name: 
+         $ref: "domail-common-api.yaml#/string255" 
+       path: 
+         $ref: "domail-common-api.yaml#/string1024"     
+    pictureList:      
+      description: List of all pictures
+      type: array
+      items:
+        $ref: "#/components/schemas/pictureEntry"
+    pictureEntryResponse:
+      description: Information about picutre
+      type: object
+      required:
+        - uri
+        - public_link
+      properties:
+       uri: 
+         $ref: "domail-common-api.yaml#/string255"
+       public_link:  
+         $ref: "domail-common-api.yaml#/string1024"
+    itemEntryResponse:
+      description: Information about item
+      type: object
+      required:
+        - uri
+        - public_link
+      properties:
+       uri: 
+         $ref: "domail-common-api.yaml#/string255"
+       public_link:  
+         $ref: "domail-common-api.yaml#/string1024"
+    pictureEntryUpload:
+      description: Information about picutre
+      type: object
+      required:
+        - name
+        - file
+        - isPublic
+      properties:
+       name: 
+         $ref: "domail-common-api.yaml#/string255"
+       file:  
+         $ref: "domail-common-api.yaml#/byteArrayResource"
+       isPublic:  
+         type: boolean
+    itemEntryUpload:
+      description: Information about item
+      type: object
+      required:
+        - name
+        - file
+      properties:
+       name: 
+         $ref: "domail-common-api.yaml#/string255"
+       file:  
+         $ref: "domail-common-api.yaml#/byteArrayResource"
+    pictureEntry:
+      description: Information about picutre
+      type: object
+      required:
+        - picture_name
+        - picture_data
+        - is_public
+      properties:
+       uri: 
+         $ref: "domail-common-api.yaml#/string255"
+       picture_name: 
+         $ref: "domail-common-api.yaml#/string255"
+       picture_data:  
+         $ref: "domail-common-api.yaml#/byteArrayResource"
+       size:
+         $ref: "domail-common-api.yaml#/int64"
+       created:
+          $ref: "domail-common-api.yaml#/datetime"
+       createdBy:
+          $ref: "domail-common-api.yaml#/string255"
+       is_public:  
+         type: boolean
+       public_link:  
+         $ref: "domail-common-api.yaml#/string1024"
+    itemEntry:
+      description: Information about item
+      type: object
+      required:
+        - name
+        - thumbnail
+        - is_public
+      properties:
+       uri: 
+         $ref: "domail-common-api.yaml#/string255"
+       name: 
+         $ref: "domail-common-api.yaml#/string255"
+       thumbnail:  
+         $ref: "domail-common-api.yaml#/byteArrayResource"
+       size:
+         $ref: "domail-common-api.yaml#/int64"
+       created:
+          $ref: "domail-common-api.yaml#/datetime"
+       createdBy:
+          $ref: "domail-common-api.yaml#/string255"
+       is_public:  
+         type: boolean
+       public_link:  
+         $ref: "domail-common-api.yaml#/string1024"
+    validationResponse:
+      description: result of validation
+      type: object
+      required:
+        - valid
+      properties:
+        valid:
+          type: boolean
+        message:
+          type: string
+    emailContentSummaryList:
+      type: array
+      items:
+        $ref: "#/components/schemas/emailContentSummary"
+    emailContentSummary:
+      type: object
+      description: Obsahuje základné informácie o emaile - od koho, komu, subjekt, cc
+      properties:
+        subject:
+          $ref: "domail-common-api.yaml#/string255"
+        from:
+          $ref: "domail-common-api.yaml#/string255"
+        to:
+          type: array
+          items:
+            $ref: "domail-common-api.yaml#/string255"
+        cc:
+          type: array
+          items:
+            $ref: "domail-common-api.yaml#/string255"
+    contentScript:
+      type: object
+      properties:
+        script:
+          type: string
+    contentScriptRequest:
+      type: object
+      required:
+        - script
+        - scenario
+        - scenarioId
+      properties:
+        script:
+          $ref: "domail-common-api.yaml#/string65535"
+        scenario:
+          $ref: "domail-common-api.yaml#/std255Regex"
+        scenarioId:
+          $ref: "domail-common-api.yaml#/int64"
+    uriList:
+      type: array
+      items:
+        $ref: "domail-common-api.yaml#/string255"
+    DuplicateResponse:
+      type: object
+      properties:
+        newId:
+          $ref: "domail-common-api.yaml#/int64"
+    DuplicateRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          $ref: "domail-common-api.yaml#/string255"
