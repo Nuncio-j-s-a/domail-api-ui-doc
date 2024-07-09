@@ -1,0 +1,320 @@
+int32:
+      type: integer
+      format: int32
+int64:
+      type: integer
+      format: int64
+double:
+      type: number
+      format: double
+string1024:
+      type: string
+      maxLength: 1024
+string100000:
+      type: string
+      maxLength: 100000
+string10:
+      type: string
+      maxLength: 10
+string15:
+      type: string
+      maxLength: 15
+string50:
+      type: string
+      maxLength: 50
+std50Regex:
+      type: string
+      maxLength: 50
+      pattern: '[-0-9a-zA-Z_@#/]+'
+std255Regex:
+      type: string
+      maxLength: 255
+      pattern: '[-0-9a-zA-Z_@#/]+'
+std255RegexWithDot:
+      type: string
+      maxLength: 255
+      pattern: '[-0-9a-zA-Z._@#/]+'
+std50RegexOpt:
+      type: string
+      maxLength: 50
+      pattern: '[-0-9a-zA-Z_@#/]*'
+string100:
+      type: string
+      maxLength: 100
+std128Regex:
+      type: string
+      maxLength: 128
+      pattern: "[-0-9a-zA-Z_@#/]+"
+string128:
+      type: string
+      maxLength: 128
+string255:
+      type: string
+      maxLength: 255
+string2048:
+      type: string
+      maxLength: 2048
+string65535:
+      type: string
+      maxLength: 65535
+stringKey50:
+      type: string
+      maxLength: 50
+      pattern: '^[a-zA-Z][a-zA-Z0-9_]*$'
+stringKey50Opt:
+      type: string
+      maxLength: 50
+      pattern: '^[a-zA-Z]?[a-zA-Z0-9_]*$'
+datetime:
+      type: string
+      format: date-time
+date:
+      type: string
+      format: date
+binaryData: #this should be type for binary file data
+      type: string
+      format: byte
+orderEnum:
+      type: string
+      enum:
+        - DESC
+        - ASC
+userTypeEnum:
+      type: string
+      enum:
+        - ADMIN
+        - USER
+roleTypeEnum:
+      type: string
+      enum:
+        - G
+        - B
+serviceActionEnum:
+      type: string
+      enum:
+        - START
+        - STOP
+blacklistActionEnum:
+      type: string
+      enum:
+        - ENABLE
+        - DISABLE
+        - RESET
+scenarioTypeEnum:
+      type: string
+      enum:
+        - STANDARD 
+        - TEMPLATE
+        - SMTP
+        - REPORT
+scriptTypeEnum:
+      type: string
+      enum:
+        - MIMEPROC
+        - EML
+        - WS
+        - TEMPLATE
+templateDataFileEnum:
+      type: string
+      enum:
+        - JSON
+        - CSV
+        - keyValue
+communicationActionEnum:
+      type: string
+      enum:
+        - CANCEL
+        - RESEND
+        - REPROCESS
+communicationExportEnum:
+      type: string
+      enum:
+        - XML
+        - CSV
+itemTypeEnum:
+      type: string
+      enum:
+        - PICTURE
+        - ATTACHMENT
+groupTypeEnum:
+      type: string
+      enum:
+        - GROUP
+        - TAG
+        - ADDRESS
+channelEnum:
+      type: string
+      enum:
+        - SOAP
+        - REST
+        - SMTP
+        - UI
+logOriginEnum:
+      type: string
+      enum:
+        - INPUT_WS
+        - MIME_PROC
+        - MAIL_SEND
+        - COAR_ARCH
+        - MAIL_TRACK
+        - UI
+logLevelEnum:
+      type: string
+      enum:
+        - ERROR
+        - INFO
+        - WARNING
+certificateTypeEnum:
+      type: string
+      enum:
+        - PDF
+        - DKIM
+        - SMTP
+userSettings:
+      maxLength: 10240
+      type: object
+emailRequestFilter:
+      type: object
+      properties:
+        id:
+          $ref: "domail-common-api.yaml#/int64"
+        extId:
+          type: string
+        scenario:
+          type: string
+        group:
+          type: string
+        category: 
+          type: string
+        operation: 
+          type: string
+        sendTimeFrom:
+          $ref: "domail-common-api.yaml#/datetime"
+        sendTimeTo:
+          $ref: "domail-common-api.yaml#/datetime"
+        procState:
+          $ref: "domail-common-api.yaml#/int32"
+        sysId:
+          type: string
+        instance:
+          type: string
+        deliveryState:
+          $ref: "domail-common-api.yaml#/int32"
+        address:
+          type: string
+        name:
+          type: string
+        emailState:
+          $ref: "domail-common-api.yaml#/int32"
+        logOrigin:
+          $ref: "domail-common-api.yaml#/logOriginEnum"
+        logLevel:
+          $ref: "domail-common-api.yaml#/logLevelEnum"
+        logMsg:
+          type: string
+        tags:
+          type: string
+        channel:
+          $ref: "domail-common-api.yaml#/channelEnum"
+byteArrayResource:
+      type: object
+      required:
+        - mime
+        - data
+      properties:
+        mime:
+          $ref:  "domail-common-api.yaml#/string255"
+        data:
+          type: string
+          format: byte
+          maxLength: 20971520
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://uvzbuild:8080/auth/realms/dominanz/protocol/openid-connect/auth
+          scopes: {}
+  schemas:
+    listRequest:
+          description: Základný body request bez filtra pre vyhľadávanie
+          type: object
+          required:
+            - start
+            - limit
+          properties:
+            start:
+              type: integer
+              format: int32
+            limit:
+              type: integer
+              format: int32
+            sort:
+              $ref: "#/string255"
+            order:
+              $ref: "#/orderEnum"
+    error:
+          type: object
+          required:
+            - message
+          properties:
+            message:
+              type: string
+              description: >-
+                Tu je chybová hláška vhodná aj pre používateľa.
+                Hláška by mala byť v slovenskom jazyku
+            detail:
+              type: string
+              description: Tu môže byť zadaná detailná hláška v angličtine, stack trace a podobne!
+            field:
+              type: string
+              description: >-
+                Pole ktoré je nevalidné, v prípade že chyba je vo validácii vstupu. 
+                V takom prípade description obsahuje lokalizovanú validačnú hlášku.
+responses:
+    200NoResponse:
+      description: Operation succesfull, withour response data
+    200File:
+      description: Operation succesfull, returning binary data (file)
+      content:
+        application/xml:
+          schema:
+            type: string
+            format: binary
+    400:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
+    401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
+    403:
+      description: Forbidden - authorization error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
+    404:
+      description: Item not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
+    409:
+      description: Conflict - for example when updating already identified register entry
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
+    default:
+      description: Standard error response - unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/error"
