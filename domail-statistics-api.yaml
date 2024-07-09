@@ -1,10 +1,10 @@
 openapi: "3.0.0"
 info:
   version: 1.0.0 
-  title: Domail statistiky
+  title: Domail statistics
   license:
     name: Proprietary
-  description: Statistiky
+  description: Statistics
 paths:
   /statistics/categorize/{type}:
     post:

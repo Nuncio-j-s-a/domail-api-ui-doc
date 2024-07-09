@@ -1,10 +1,10 @@
 openapi: "3.0.0"
 info:
   version: 1.0.0 
-  title: Domail komunikacie
+  title: Domail communications
   license:
     name: Proprietary
-  description: Komunikacie
+  description: Communications API
 paths:
   /emailListRequest:
     post:

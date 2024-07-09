@@ -1,10 +1,10 @@
 openapi: "3.0.0"
 info:
   version: 1.0.0 
-  title: Domail administracia
+  title: Domail administration
   license:
     name: Proprietary
-  description: Administracne api
+  description: Administration api
 paths:
   /certificate/{uri}:
     delete:

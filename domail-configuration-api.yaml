@@ -1,10 +1,10 @@
 openapi: "3.0.0"
 info:
   version: 1.0.0 
-  title: Domail konfiguaracia - sablony, scenare, skripty
+  title: Domail configuration - templates, scenarios, scripts
   license:
     name: Proprietary
-  description: konfiguaracia - sablony, scenare, skripty
+  description: configuration - templates, scenarios, scripts
 paths:
   /script/{id}/duplicate:
     post:
